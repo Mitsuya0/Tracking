@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { FolderUp, Palette, Image as ImageIcon, RotateCcw, User, Move } from 'lucide-react';
+import { Button, Icon } from '@charcoal-ui/react';
 import type { AppSettings } from '../../types';
 
 interface AssetsPanelProps {
@@ -71,7 +71,7 @@ export const AssetsPanel: React.FC<AssetsPanelProps> = ({
       {/* 1. VRMアバターの変更 */}
       <div>
         <label className="flex items-center gap-2 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
-          <User className="w-4 h-4 text-indigo-400" />
+          <Icon name="24/Body" className="text-indigo-400" />
           VRM アバター切り替え
         </label>
 
@@ -89,7 +89,9 @@ export const AssetsPanel: React.FC<AssetsPanelProps> = ({
           onClick={() => vrmInputRef.current?.click()}
           className="w-full border-2 border-dashed border-slate-700 hover:border-indigo-500/80 bg-slate-900/60 hover:bg-slate-900/90 rounded-lg p-4 text-center cursor-pointer transition-all group"
         >
-          <FolderUp className="w-6 h-6 text-slate-400 group-hover:text-indigo-400 mx-auto mb-2 transition-colors" />
+          <div className="flex justify-center mb-2">
+            <Icon name="24/AddImage" className="text-slate-400 group-hover:text-indigo-400 transition-colors" />
+          </div>
           <p className="text-xs font-medium text-slate-200">
             {settings.customVrmUrl ? 'カスタムVRM適用中' : 'デフォルトVRM表示中'}
           </p>
@@ -99,21 +101,24 @@ export const AssetsPanel: React.FC<AssetsPanelProps> = ({
         </div>
 
         {settings.customVrmUrl && (
-          <button
-            onClick={() =>
-              updateSettings((prev) => ({ ...prev, customVrmUrl: null }))
-            }
-            className="mt-2 text-[11px] text-indigo-400 hover:text-indigo-300 underline"
-          >
-            デフォルトアバターに戻す
-          </button>
+          <div className="mt-2">
+            <Button
+              variant="Default"
+              size="S"
+              onClick={() =>
+                updateSettings((prev) => ({ ...prev, customVrmUrl: null }))
+              }
+            >
+              デフォルトアバターに戻す
+            </Button>
+          </div>
         )}
       </div>
 
       {/* 2. 背景の変更 */}
       <div>
         <label className="flex items-center gap-2 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
-          <Palette className="w-4 h-4 text-pink-400" />
+          <Icon name="24/Palette" className="text-pink-400" />
           背景設定 (シーン内合成)
         </label>
 
@@ -174,13 +179,17 @@ export const AssetsPanel: React.FC<AssetsPanelProps> = ({
               onChange={handleBgImageChange}
               className="hidden"
             />
-            <button
+            <Button
+              variant="Default"
+              size="S"
+              fullWidth
               onClick={() => bgImageInputRef.current?.click()}
-              className="w-full flex items-center justify-center gap-2 py-2 px-3 bg-slate-800 hover:bg-slate-700 text-xs text-slate-200 rounded border border-slate-700 transition-colors"
             >
-              <ImageIcon className="w-3.5 h-3.5 text-slate-400" />
-              ローカル画像ファイルを選択
-            </button>
+              <span className="flex items-center justify-center gap-2">
+                <Icon name="24/Image" />
+                ローカル画像ファイルを選択
+              </span>
+            </Button>
           </div>
         </div>
       </div>
@@ -188,7 +197,7 @@ export const AssetsPanel: React.FC<AssetsPanelProps> = ({
       {/* 3. アバター位置・カメラ操作 (マウス直感操作) */}
       <div>
         <label className="flex items-center gap-2 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
-          <Move className="w-4 h-4 text-amber-400" />
+          <Icon name="24/Move1" className="text-amber-400" />
           アバター位置・カメラ操作
         </label>
 
@@ -213,13 +222,17 @@ export const AssetsPanel: React.FC<AssetsPanelProps> = ({
           </div>
 
           {onResetCamera && (
-            <button
+            <Button
+              variant="Default"
+              size="S"
+              fullWidth
               onClick={onResetCamera}
-              className="w-full flex items-center justify-center gap-2 py-2 px-3 bg-slate-800 hover:bg-slate-700 text-xs text-white rounded border border-slate-700 transition-colors shadow-sm"
             >
-              <RotateCcw className="w-3.5 h-3.5 text-slate-400" />
-              初期位置・アングルにリセット
-            </button>
+              <span className="flex items-center justify-center gap-2">
+                <Icon name="24/Rotate90DegreesCc" />
+                初期位置・アングルにリセット
+              </span>
+            </Button>
           )}
         </div>
       </div>

@@ -75,6 +75,7 @@ export const App: React.FC = () => {
   // トラッキングフック
   const {
     videoRef,
+    isInitialized: isTrackingInitialized,
     availableDevices,
     status: trackingStatus,
     latestTrackingDataRef,
@@ -202,6 +203,7 @@ export const App: React.FC = () => {
           settings={settings}
           latestTrackingDataRef={latestTrackingDataRef}
           trackingStatus={trackingStatus}
+          isTrackingInitialized={isTrackingInitialized}
           onCanvasReady={(c) => {
             canvasRef.current = c;
           }}

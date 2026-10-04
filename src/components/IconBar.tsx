@@ -1,5 +1,5 @@
 import React from 'react';
-import { Settings, Sliders, Palette, RotateCcw, Video } from 'lucide-react';
+import { Icon } from '@charcoal-ui/react';
 import type { ActivePanel } from '../types';
 
 interface IconBarProps {
@@ -18,17 +18,17 @@ export const IconBar: React.FC<IconBarProps> = ({
   const items: { id: ActivePanel; icon: React.ReactNode; label: string }[] = [
     {
       id: 'settings',
-      icon: <Settings className="w-5 h-5" />,
+      icon: <Icon name="24/Settings" />,
       label: '基本設定 & カメラ',
     },
     {
       id: 'tracking',
-      icon: <Sliders className="w-5 h-5" />,
+      icon: <Icon name="24/FaceEdit" />,
       label: 'トラッキング調整',
     },
     {
       id: 'assets',
-      icon: <Palette className="w-5 h-5" />,
+      icon: <Icon name="24/Palette" />,
       label: 'アセット・背景管理',
     },
   ];
@@ -64,7 +64,7 @@ export const IconBar: React.FC<IconBarProps> = ({
           className="p-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all mt-2"
           title="アングルをリセット"
         >
-          <RotateCcw className="w-5 h-5" />
+          <Icon name="24/Rotate90DegreesCc" />
         </button>
       </div>
 
@@ -78,7 +78,7 @@ export const IconBar: React.FC<IconBarProps> = ({
           }`}
           title={isVirtualCamRunning ? '仮想カメラ配信中' : '仮想カメラ停止中'}
         >
-          <Video className="w-5 h-5" />
+          <Icon name="24/CameraVideo" />
         </div>
       </div>
     </div>

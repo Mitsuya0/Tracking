@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, Hand } from 'lucide-react';
+import { Switch, Icon } from '@charcoal-ui/react';
 import type { AppSettings } from '../../types';
 
 interface TrackingPanelProps {
@@ -31,7 +31,7 @@ export const TrackingPanel: React.FC<TrackingPanelProps> = ({
       {/* 1. 顔トラッキング設定 */}
       <div>
         <label className="flex items-center gap-2 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">
-          <Sparkles className="w-4 h-4 text-purple-400" />
+          <Icon name="24/FaceEdit" className="text-purple-400" />
           顔・表情トラッキング
         </label>
 
@@ -129,7 +129,7 @@ export const TrackingPanel: React.FC<TrackingPanelProps> = ({
       {/* 2. ハンドトラッキング設定 */}
       <div>
         <label className="flex items-center gap-2 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">
-          <Hand className="w-4 h-4 text-emerald-400" />
+          <Icon name="24/Body" className="text-emerald-400" />
           ハンドトラッキング (両手・指)
         </label>
 
@@ -140,15 +140,10 @@ export const TrackingPanel: React.FC<TrackingPanelProps> = ({
               <p className="text-xs font-medium text-white">手の追従を有効化</p>
               <p className="text-[11px] text-slate-400">オフにするとCPU/GPU負荷を軽減</p>
             </div>
-            <label className="relative inline-flex items-center cursor-pointer">
-              <input
-                type="checkbox"
-                checked={tracking.handsEnabled}
-                onChange={(e) => updateTracking('handsEnabled', e.target.checked)}
-                className="sr-only peer"
-              />
-              <div className="w-9 h-5 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
-            </label>
+            <Switch
+              checked={tracking.handsEnabled}
+              onChange={(checked) => updateTracking('handsEnabled', checked)}
+            />
           </div>
 
           {tracking.handsEnabled && (

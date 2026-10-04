@@ -9,6 +9,7 @@ interface ThreeCanvasProps {
   settings: AppSettings;
   latestTrackingDataRef: React.MutableRefObject<TrackingData>;
   trackingStatus: TrackingStatus;
+  isTrackingInitialized?: boolean;
   onCanvasReady?: (canvas: HTMLCanvasElement) => void;
   onResetCameraReady?: (resetHandler: () => void) => void;
   onFrameRendered?: (gl: WebGLRenderingContext | WebGL2RenderingContext, canvas: HTMLCanvasElement) => void;
@@ -18,6 +19,7 @@ export const ThreeCanvas: React.FC<ThreeCanvasProps> = ({
   settings,
   latestTrackingDataRef,
   trackingStatus,
+  isTrackingInitialized = true,
   onCanvasReady,
   onResetCameraReady,
   onFrameRendered,
@@ -178,11 +180,20 @@ export const ThreeCanvas: React.FC<ThreeCanvasProps> = ({
           className="w-full h-full object-contain block cursor-grab active:cursor-grabbing"
         />
 
-        {/* ロード中スピナー */}
-        {isLoading && (
-          <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center backdrop-blur-sm z-10">
-            <div className="w-10 h-10 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin mb-3"></div>
-            <p className="text-white text-sm font-medium">VRMアバター読み込み中...</p>
+        {/* ロード中スピナー / 起動準備中オーバーレイ */}
+        {(isLoading || !currentVrm || !isTrackingInitialized) && (
+          <div className="absolute inset-0 bg-[#070a13]/90 flex flex-col items-center justify-center backdrop-blur-md z-10">
+            <div className="w-9 h-9 border-3 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin mb-3.5"></div>
+            <p className="text-white text-sm font-medium tracking-wide mb-1">
+              {!currentVrm || isLoading
+                ? 'アバターモデルを読み込み中...'
+                : 'AIトラッキングエンジンを準備中...'}
+            </p>
+            <p className="text-slate-400 text-xs">
+              {!isTrackingInitialized
+                ? 'カメラとMediaPipeを初期化しています'
+                : 'まもなく準備が完了します'}
+            </p>
           </div>
         )}
 

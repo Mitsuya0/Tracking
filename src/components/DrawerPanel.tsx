@@ -1,5 +1,5 @@
 import React from 'react';
-import { X } from 'lucide-react';
+import { Icon } from '@charcoal-ui/react';
 import type { ActivePanel } from '../types';
 
 interface DrawerPanelProps {
@@ -40,7 +40,7 @@ export const DrawerPanel: React.FC<DrawerPanelProps> = ({
           className="text-slate-400 hover:text-white p-1 rounded-md hover:bg-slate-800/60 transition-colors"
           title="パネルを閉じる"
         >
-          <X className="w-4 h-4" />
+          <Icon name="24/Close" />
         </button>
       </div>
 
