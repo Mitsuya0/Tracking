@@ -11,6 +11,8 @@ export interface BackgroundSettings {
 
 export type PerformanceMode = 'balanced' | 'economy' | 'quality';
 
+export type AppTheme = 'light' | 'dark';
+
 export interface TrackingSettings {
   // 顔トラッキング
   faceEnabled: boolean;
@@ -37,6 +39,7 @@ export interface VirtualCamSettings {
 }
 
 export interface AppSettings {
+  theme: AppTheme;
   selectedCameraId: string;
   performanceMode: PerformanceMode;
   background: BackgroundSettings;

@@ -34,7 +34,7 @@ export const IconBar: React.FC<IconBarProps> = ({
   ];
 
   return (
-    <div className="absolute top-0 right-0 h-full w-14 bg-slate-950/80 border-l border-slate-800/80 backdrop-blur-md flex flex-col items-center justify-between py-4 z-30 select-none">
+    <div className="absolute top-0 right-0 h-full w-14 bg-charcoal-container-secondary border-l border-charcoal-border flex flex-col items-center justify-between py-4 z-30 select-none shadow-md">
       {/* 上部アイコン群 */}
       <div className="flex flex-col items-center gap-3">
         {items.map((item) => {
@@ -46,7 +46,7 @@ export const IconBar: React.FC<IconBarProps> = ({
               className={`relative p-2.5 rounded-xl transition-all ${
                 isActive
                   ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+                  : 'text-charcoal-text-muted hover:text-charcoal-text hover:bg-charcoal-container-tertiary'
               }`}
               title={item.label}
             >
@@ -61,7 +61,7 @@ export const IconBar: React.FC<IconBarProps> = ({
         {/* 視点リセットボタン */}
         <button
           onClick={onResetCamera}
-          className="p-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all mt-2"
+          className="p-2.5 rounded-xl text-charcoal-text-muted hover:text-charcoal-text hover:bg-charcoal-container-tertiary transition-all mt-2"
           title="アングルをリセット"
         >
           <Icon name="24/Rotate90DegreesCc" />
@@ -73,8 +73,8 @@ export const IconBar: React.FC<IconBarProps> = ({
         <div
           className={`p-2 rounded-xl transition-all ${
             isVirtualCamRunning
-              ? 'text-emerald-400 bg-emerald-500/10 border border-emerald-500/30'
-              : 'text-slate-600'
+              ? 'text-emerald-500 bg-emerald-500/10 border border-emerald-500/30'
+              : 'text-charcoal-text-muted opacity-40'
           }`}
           title={isVirtualCamRunning ? '仮想カメラ配信中' : '仮想カメラ停止中'}
         >

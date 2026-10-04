@@ -12,11 +12,12 @@ import type { AppSettings, ActivePanel } from './types';
 const STORAGE_KEY = 'solotracking_settings_v1';
 
 const defaultSettings: AppSettings = {
+  theme: 'light',
   selectedCameraId: '',
   performanceMode: 'balanced',
   background: {
     mode: 'color',
-    color: '#0b0f19',
+    color: '#f8fafc',
     imageUrl: null,
     fit: 'cover',
   },
@@ -54,6 +55,11 @@ export const App: React.FC = () => {
     }
     return defaultSettings;
   });
+
+  // テーマ属性の同期
+  useEffect(() => {
+    document.documentElement.dataset.theme = settings.theme || 'light';
+  }, [settings.theme]);
 
   // 設定保存
   useEffect(() => {
@@ -188,7 +194,7 @@ export const App: React.FC = () => {
   }, []);
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-[#070a13] flex select-none">
+    <div className="relative w-screen h-screen overflow-hidden bg-charcoal-bg text-charcoal-text flex select-none">
       {/* 1. 不可視のWebカメラ映像 (プライバシー保護仕様: メイン画面には非表示) */}
       <video
         ref={videoRef}

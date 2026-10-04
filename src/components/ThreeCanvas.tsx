@@ -166,7 +166,7 @@ export const ThreeCanvas: React.FC<ThreeCanvasProps> = ({
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-full flex items-center justify-center bg-[#070a13] overflow-hidden"
+      className="relative w-full h-full flex items-center justify-center bg-charcoal-bg overflow-hidden"
     >
       {/* 16:9 アスペクト比を維持するキャンバスラッパー */}
       <div
@@ -182,14 +182,14 @@ export const ThreeCanvas: React.FC<ThreeCanvasProps> = ({
 
         {/* ロード中スピナー / 起動準備中オーバーレイ */}
         {(isLoading || !currentVrm || !isTrackingInitialized) && (
-          <div className="absolute inset-0 bg-[#070a13]/90 flex flex-col items-center justify-center backdrop-blur-md z-10">
+          <div className="absolute inset-0 bg-charcoal-bg/95 flex flex-col items-center justify-center backdrop-blur-md z-10">
             <div className="w-9 h-9 border-3 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin mb-3.5"></div>
-            <p className="text-white text-sm font-medium tracking-wide mb-1">
+            <p className="text-charcoal-text text-sm font-medium tracking-wide mb-1">
               {!currentVrm || isLoading
                 ? 'アバターモデルを読み込み中...'
                 : 'AIトラッキングエンジンを準備中...'}
             </p>
-            <p className="text-slate-400 text-xs">
+            <p className="text-charcoal-text-muted text-xs">
               {!isTrackingInitialized
                 ? 'カメラとMediaPipeを初期化しています'
                 : 'まもなく準備が完了します'}
@@ -205,21 +205,21 @@ export const ThreeCanvas: React.FC<ThreeCanvasProps> = ({
         )}
 
         {/* ステータスバッジ (画面左下) */}
-        <div className="absolute bottom-3 left-3 flex items-center gap-2 bg-slate-900/70 border border-slate-700/50 px-2.5 py-1 rounded-full text-[11px] text-slate-300 backdrop-blur-md pointer-events-none select-none z-10">
+        <div className="absolute bottom-3 left-3 flex items-center gap-2 bg-charcoal-surface/85 border border-charcoal-border px-2.5 py-1 rounded-full text-[11px] text-charcoal-text backdrop-blur-md pointer-events-none select-none z-10 shadow-sm">
           <span
             className={`w-2 h-2 rounded-full ${
-              currentVrm && trackingStatus.faceDetected ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'
+              currentVrm && trackingStatus.faceDetected ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'
             }`}
           />
           <span>{currentVrm ? (trackingStatus.faceDetected ? 'アバター追従中' : '顔探索中') : 'モデル待機中'}</span>
           {settings.tracking.handsEnabled && (
             <>
-              <span className="text-slate-600">|</span>
+              <span className="text-charcoal-text-muted opacity-40">|</span>
               <span
                 className={
                   trackingStatus.leftHandDetected || trackingStatus.rightHandDetected
-                    ? 'text-emerald-400'
-                    : 'text-slate-400'
+                    ? 'text-emerald-500 font-medium'
+                    : 'text-charcoal-text-muted'
                 }
               >
                 手: {trackingStatus.leftHandDetected ? '左' : ''}
@@ -228,16 +228,16 @@ export const ThreeCanvas: React.FC<ThreeCanvasProps> = ({
               </span>
             </>
           )}
-          <span className="text-slate-600">|</span>
-          <span className="text-slate-400">{trackingStatus.fps} FPS</span>
+          <span className="text-charcoal-text-muted opacity-40">|</span>
+          <span className="text-charcoal-text-muted">{trackingStatus.fps} FPS</span>
         </div>
 
         {/* マウス操作ヒントバッジ (画面右上) */}
-        <div className="absolute top-3 right-16 hidden sm:flex items-center gap-2 bg-slate-900/60 border border-slate-700/40 px-3 py-1 rounded-full text-[10px] text-slate-300 backdrop-blur-md pointer-events-none select-none z-10 opacity-70 hover:opacity-100 transition-opacity">
+        <div className="absolute top-3 right-16 hidden sm:flex items-center gap-2 bg-charcoal-surface/85 border border-charcoal-border px-3 py-1 rounded-full text-[10px] text-charcoal-text backdrop-blur-md pointer-events-none select-none z-10 opacity-70 hover:opacity-100 transition-opacity shadow-sm">
           <span>🖱️ 左ドラッグ: 向き</span>
-          <span className="text-slate-600">•</span>
+          <span className="text-charcoal-text-muted opacity-40">•</span>
           <span>右ドラッグ: 位置</span>
-          <span className="text-slate-600">•</span>
+          <span className="text-charcoal-text-muted opacity-40">•</span>
           <span>ホイール: 距離</span>
         </div>
       </div>

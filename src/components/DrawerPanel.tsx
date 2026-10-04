@@ -24,20 +24,20 @@ export const DrawerPanel: React.FC<DrawerPanelProps> = ({
 
   return (
     <div
-      className={`absolute top-0 right-14 h-full w-84 max-w-[calc(100vw-3.5rem)] bg-slate-950/90 border-l border-slate-800/80 backdrop-blur-xl shadow-2xl z-20 transition-all duration-300 ease-out transform ${
+      className={`absolute top-0 right-14 h-full w-84 max-w-[calc(100vw-3.5rem)] bg-charcoal-container border-l border-charcoal-border shadow-2xl z-20 transition-all duration-300 ease-out transform ${
         isOpen
           ? 'translate-x-0 opacity-100 pointer-events-auto'
           : 'translate-x-full opacity-0 pointer-events-none'
       }`}
     >
       {/* ヘッダー */}
-      <div className="flex items-center justify-between px-4 py-3.5 border-b border-slate-800/80">
-        <h2 className="text-sm font-semibold text-white tracking-wide">
+      <div className="flex items-center justify-between px-4 py-3.5 border-b border-charcoal-border">
+        <h2 className="text-sm font-semibold text-charcoal-text tracking-wide">
           {titles[activePanel]}
         </h2>
         <button
           onClick={onClose}
-          className="text-slate-400 hover:text-white p-1 rounded-md hover:bg-slate-800/60 transition-colors"
+          className="text-charcoal-text-muted hover:text-charcoal-text p-1 rounded-md hover:bg-charcoal-container-secondary transition-colors"
           title="パネルを閉じる"
         >
           <Icon name="24/Close" />

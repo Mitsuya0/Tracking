@@ -1,21 +1,40 @@
 <!doctype html>
-<html lang="ja" class="ch-token-v2" data-theme="dark">
+<html lang="ja" class="ch-token-v2" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SoloTracking</title>
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('solotracking_settings_v1');
+          if (saved) {
+            var parsed = JSON.parse(saved);
+            if (parsed.theme === 'dark' || parsed.theme === 'light') {
+              document.documentElement.dataset.theme = parsed.theme;
+            }
+          }
+        } catch (e) {}
+      })();
+    </script>
     <style>
       :root, html, body {
         margin: 0;
         padding: 0;
         width: 100%;
         height: 100%;
-        background-color: #070a13;
-        color: #f1f5f9;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         overflow: hidden;
         user-select: none;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      }
+      :root[data-theme='light'], html[data-theme='light'] {
+        background-color: #f8fafc;
+        color: #0f172a;
+      }
+      :root[data-theme='dark'], html[data-theme='dark'] {
+        background-color: #070a13;
+        color: #f1f5f9;
       }
       #root {
         width: 100%;
@@ -28,6 +47,11 @@
         justify-content: center;
         width: 100%;
         height: 100%;
+      }
+      html[data-theme='light'] .init-loading-container {
+        background: radial-gradient(circle at center, #ffffff 0%, #f1f5f9 85%);
+      }
+      html[data-theme='dark'] .init-loading-container {
         background: radial-gradient(circle at center, #0f172a 0%, #070a13 70%);
       }
       .init-logo-wrapper {
@@ -59,6 +83,11 @@
         font-size: 20px;
         font-weight: 700;
         letter-spacing: -0.02em;
+      }
+      html[data-theme='light'] .init-title {
+        color: #0f172a;
+      }
+      html[data-theme='dark'] .init-title {
         color: #f8fafc;
       }
       .init-spinner {
@@ -73,11 +102,21 @@
       .init-status-text {
         font-size: 13px;
         font-weight: 500;
-        color: #cbd5e1;
         margin-bottom: 6px;
+      }
+      html[data-theme='light'] .init-status-text {
+        color: #334155;
+      }
+      html[data-theme='dark'] .init-status-text {
+        color: #cbd5e1;
       }
       .init-sub-text {
         font-size: 11px;
+      }
+      html[data-theme='light'] .init-sub-text {
+        color: #94a3b8;
+      }
+      html[data-theme='dark'] .init-sub-text {
         color: #64748b;
       }
       @keyframes init-spin {

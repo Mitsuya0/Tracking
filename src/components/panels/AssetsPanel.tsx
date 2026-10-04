@@ -59,6 +59,7 @@ export const AssetsPanel: React.FC<AssetsPanelProps> = ({
 
   // カラープリセット
   const colorPresets = [
+    { label: 'ライト', color: '#f8fafc' },
     { label: 'ダーク', color: '#0b0f19' },
     { label: 'グリーン (Chroma)', color: '#00ff00' },
     { label: 'ブルー (Chroma)', color: '#0000ff' },
@@ -67,11 +68,11 @@ export const AssetsPanel: React.FC<AssetsPanelProps> = ({
   ];
 
   return (
-    <div className="space-y-6 text-sm text-slate-200">
+    <div className="space-y-6 text-sm text-charcoal-text">
       {/* 1. VRMアバターの変更 */}
       <div>
-        <label className="flex items-center gap-2 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
-          <Icon name="24/Body" className="text-indigo-400" />
+        <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-2">
+          <Icon name="24/Body" className="text-indigo-500" />
           VRM アバター切り替え
         </label>
 
@@ -87,15 +88,15 @@ export const AssetsPanel: React.FC<AssetsPanelProps> = ({
           onDragOver={(e) => e.preventDefault()}
           onDrop={handleVrmDrop}
           onClick={() => vrmInputRef.current?.click()}
-          className="w-full border-2 border-dashed border-slate-700 hover:border-indigo-500/80 bg-slate-900/60 hover:bg-slate-900/90 rounded-lg p-4 text-center cursor-pointer transition-all group"
+          className="w-full border-2 border-dashed border-charcoal-border hover:border-indigo-500 bg-charcoal-container-secondary hover:bg-charcoal-container-tertiary rounded-lg p-4 text-center cursor-pointer transition-all group shadow-sm"
         >
           <div className="flex justify-center mb-2">
-            <Icon name="24/AddImage" className="text-slate-400 group-hover:text-indigo-400 transition-colors" />
+            <Icon name="24/AddImage" className="text-charcoal-text-muted group-hover:text-indigo-500 transition-colors" />
           </div>
-          <p className="text-xs font-medium text-slate-200">
+          <p className="text-xs font-medium text-charcoal-text">
             {settings.customVrmUrl ? 'カスタムVRM適用中' : 'デフォルトVRM表示中'}
           </p>
-          <p className="text-[11px] text-slate-500 mt-0.5">
+          <p className="text-[11px] text-charcoal-text-muted mt-0.5">
             クリックまたは .vrm をドラッグ＆ドロップ
           </p>
         </div>
@@ -117,15 +118,15 @@ export const AssetsPanel: React.FC<AssetsPanelProps> = ({
 
       {/* 2. 背景の変更 */}
       <div>
-        <label className="flex items-center gap-2 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
-          <Icon name="24/Palette" className="text-pink-400" />
+        <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-2">
+          <Icon name="24/Palette" className="text-pink-500" />
           背景設定 (シーン内合成)
         </label>
 
-        <div className="space-y-3 bg-slate-900/60 border border-slate-800 p-3.5 rounded-lg">
+        <div className="space-y-3 bg-charcoal-container-secondary border border-charcoal-border p-3.5 rounded-lg shadow-sm">
           {/* 単色カラープリセット */}
           <div>
-            <p className="text-xs text-slate-300 mb-2">単色・クロマキー背景</p>
+            <p className="text-xs text-charcoal-text mb-2">単色・クロマキー背景</p>
             <div className="flex items-center gap-2">
               {colorPresets.map((p) => (
                 <button
@@ -144,8 +145,8 @@ export const AssetsPanel: React.FC<AssetsPanelProps> = ({
                   className={`w-7 h-7 rounded-full border-2 transition-transform hover:scale-110 ${
                     settings.background.mode === 'color' &&
                     settings.background.color.toLowerCase() === p.color.toLowerCase()
-                      ? 'border-indigo-400 scale-105'
-                      : 'border-slate-700'
+                      ? 'border-indigo-500 scale-105'
+                      : 'border-charcoal-border'
                   }`}
                   style={{ backgroundColor: p.color }}
                 />
@@ -165,13 +166,13 @@ export const AssetsPanel: React.FC<AssetsPanelProps> = ({
                     },
                   }))
                 }
-                className="w-7 h-7 rounded-full overflow-hidden cursor-pointer border border-slate-700 bg-transparent p-0"
+                className="w-7 h-7 rounded-full overflow-hidden cursor-pointer border border-charcoal-border bg-transparent p-0"
               />
             </div>
           </div>
 
           {/* 背景画像 */}
-          <div className="pt-2 border-t border-slate-800">
+          <div className="pt-2 border-t border-charcoal-border">
             <input
               ref={bgImageInputRef}
               type="file"
@@ -196,28 +197,28 @@ export const AssetsPanel: React.FC<AssetsPanelProps> = ({
 
       {/* 3. アバター位置・カメラ操作 (マウス直感操作) */}
       <div>
-        <label className="flex items-center gap-2 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
-          <Icon name="24/Move1" className="text-amber-400" />
+        <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-2">
+          <Icon name="24/Move1" className="text-amber-500" />
           アバター位置・カメラ操作
         </label>
 
-        <div className="bg-slate-900/60 border border-slate-800 p-3.5 rounded-lg space-y-3">
-          <p className="text-xs text-slate-300">
+        <div className="bg-charcoal-container-secondary border border-charcoal-border p-3.5 rounded-lg space-y-3 shadow-sm">
+          <p className="text-xs text-charcoal-text">
             プレビュー画面上でマウスを直接操作して、位置・向き・距離を自在に調整できます。
           </p>
 
-          <div className="space-y-1.5 text-[11px] text-slate-400 bg-slate-950/60 rounded p-2.5 border border-slate-800/80">
+          <div className="space-y-1.5 text-[11px] text-charcoal-text-muted bg-charcoal-container-tertiary rounded p-2.5 border border-charcoal-border">
             <div className="flex items-center justify-between">
-              <span>🖱️ <strong className="text-slate-200">左ドラッグ</strong>:</span>
-              <span className="text-indigo-300">アバターの向き (360°回転)</span>
+              <span>🖱️ <strong className="text-charcoal-text">左ドラッグ</strong>:</span>
+              <span className="text-indigo-600 dark:text-indigo-400">アバターの向き (360°回転)</span>
             </div>
             <div className="flex items-center justify-between">
-              <span>🖱️ <strong className="text-slate-200">右ドラッグ</strong> / <strong className="text-slate-200">Shift+左</strong>:</span>
-              <span className="text-emerald-300">位置の平行移動 (左右上下)</span>
+              <span>🖱️ <strong className="text-charcoal-text">右ドラッグ</strong> / <strong className="text-charcoal-text">Shift+左</strong>:</span>
+              <span className="text-emerald-600 dark:text-emerald-400">位置の平行移動 (左右上下)</span>
             </div>
             <div className="flex items-center justify-between">
-              <span>🖱️ <strong className="text-slate-200">ホイールスクロール</strong>:</span>
-              <span className="text-amber-300">カメラの距離 (ズームイン/アウト)</span>
+              <span>🖱️ <strong className="text-charcoal-text">ホイールスクロール</strong>:</span>
+              <span className="text-amber-600 dark:text-amber-400">カメラの距離 (ズームイン/アウト)</span>
             </div>
           </div>
 
