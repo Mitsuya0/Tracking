@@ -13,14 +13,14 @@
     "windows": [
       {
         "title": "SoloTracking",
-        "width": 1280,
-        "height": 720,
-        "minWidth": 640,
-        "minHeight": 360,
+        "width": 696,
+        "height": 360,
+        "minWidth": 480,
+        "minHeight": 270,
         "resizable": true,
         "fullscreen": false,
-        "theme": "Dark",
-        "backgroundColor": "#070a13"
+        "theme": "Light",
+        "backgroundColor": "#f8fafc"
       }
     ],
     "security": {

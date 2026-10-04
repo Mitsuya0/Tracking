@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, DropdownSelector, DropdownMenuItem, Icon } from '@charcoal-ui/react';
+import { Button, DropdownSelector, DropdownMenuItem, Icon, Radio, RadioGroup } from '@charcoal-ui/react';
 import { CameraPreview } from './CameraPreview';
 import type { AppSettings, TrackingStatus, PerformanceMode } from '../../types';
 import type { TrackingData } from '../../utils/kalidoSolver';
@@ -86,21 +86,21 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
           <Icon name="24/Palette" className="text-indigo-500" />
           カラーテーマ (Charcoal)
         </label>
-        <div className="grid grid-cols-2 gap-2">
-          <Button
-            variant={settings.theme === 'light' ? 'Primary' : 'Default'}
-            size="S"
-            onClick={() => handleThemeChange('light')}
+        <div className="bg-charcoal-container-secondary border border-charcoal-border rounded-lg p-3 shadow-sm">
+          <RadioGroup
+            name="theme"
+            label="カラーテーマ"
+            value={settings.theme}
+            onChange={(val) => handleThemeChange(val as 'light' | 'dark')}
+            className="flex items-center gap-6"
           >
-            ☀️ ライトテーマ
-          </Button>
-          <Button
-            variant={settings.theme === 'dark' ? 'Primary' : 'Default'}
-            size="S"
-            onClick={() => handleThemeChange('dark')}
-          >
-            🌙 ダークテーマ
-          </Button>
+            <Radio value="light">
+              <span className="text-xs font-medium">ライトテーマ</span>
+            </Radio>
+            <Radio value="dark">
+              <span className="text-xs font-medium">ダークテーマ</span>
+            </Radio>
+          </RadioGroup>
         </div>
       </div>
 
