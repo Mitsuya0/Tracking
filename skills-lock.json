@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "skills": {
+    "choosing-charcoal-styling": {
+      "source": "pixiv/charcoal",
+      "sourceType": "github",
+      "skillPath": "skills/choosing-charcoal-styling/SKILL.md",
+      "computedHash": "e5f3757acd4ef259fb35132ec67b3cd0b66100bae4bbc7dd5446da0eb0fb9f6e"
+    },
+    "setting-up-charcoal-css-variables": {
+      "source": "pixiv/charcoal",
+      "sourceType": "github",
+      "skillPath": "skills/setting-up-charcoal-css-variables/SKILL.md",
+      "computedHash": "ba5db412348b0ee391f2dd572933c590e32eb102226ad960e9c43056e3430b49"
+    },
+    "setting-up-charcoal-styled": {
+      "source": "pixiv/charcoal",
+      "sourceType": "github",
+      "skillPath": "skills/setting-up-charcoal-styled/SKILL.md",
+      "computedHash": "6b844a950a63c9288f2faf3d74e1cb1d0d3f706bafb96b99fbc10d9ddb8c6e0f"
+    },
+    "setting-up-charcoal-tailwind": {
+      "source": "pixiv/charcoal",
+      "sourceType": "github",
+      "skillPath": "skills/setting-up-charcoal-tailwind/SKILL.md",
+      "computedHash": "f8d79bc706d1488d5326bcefc8c03cd224b16d36037ecb9a08f33b2d05b388d1"
+    }
+  }
+}
