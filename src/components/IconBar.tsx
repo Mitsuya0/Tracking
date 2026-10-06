@@ -43,7 +43,7 @@ export const IconBar: React.FC<IconBarProps> = ({
             <button
               key={item.id}
               onClick={() => onTogglePanel(isActive ? 'none' : item.id)}
-              className={`relative p-2 rounded-xl transition-all ${
+              className={`relative w-10 h-10 flex items-center justify-center rounded-xl transition-all ${
                 isActive
                   ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30'
                   : 'text-charcoal-text-muted hover:text-charcoal-text hover:bg-charcoal-container-tertiary'
@@ -61,7 +61,7 @@ export const IconBar: React.FC<IconBarProps> = ({
         {/* 視点リセットボタン */}
         <button
           onClick={onResetCamera}
-          className="p-2 rounded-xl text-charcoal-text-muted hover:text-charcoal-text hover:bg-charcoal-container-tertiary transition-all mt-2"
+          className="w-10 h-10 flex items-center justify-center rounded-xl text-charcoal-text-muted hover:text-charcoal-text hover:bg-charcoal-container-tertiary transition-all mt-2"
           title="アングルをリセット"
         >
           <Icon name="24/Rotate90DegreesCc" />
@@ -71,7 +71,7 @@ export const IconBar: React.FC<IconBarProps> = ({
       {/* 下部：仮想カメラ配信状態インジケータ */}
       <div className="flex flex-col items-center gap-1">
         <div
-          className={`p-2 rounded-xl transition-all ${
+          className={`w-10 h-10 flex items-center justify-center rounded-xl transition-all ${
             isVirtualCamRunning
               ? 'text-emerald-500 bg-emerald-500/10 border border-emerald-500/30'
               : 'text-charcoal-text-muted opacity-40'
