@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { invoke } from '@tauri-apps/api/core';
 import { ThreeCanvas } from './components/ThreeCanvas';
 import { IconBar } from './components/IconBar';
-import { DrawerPanel } from './components/DrawerPanel';
+import { ModalPanel } from './components/ModalPanel';
 import { SettingsPanel } from './components/panels/SettingsPanel';
 import { TrackingPanel } from './components/panels/TrackingPanel';
 import { AssetsPanel } from './components/panels/AssetsPanel';
@@ -228,8 +228,8 @@ export const App: React.FC = () => {
         isVirtualCamRunning={isVirtualCamRunning}
       />
 
-      {/* 4. 開閉式サイドパネル */}
-      <DrawerPanel
+      {/* 4. Charcoal モーダルパネル */}
+      <ModalPanel
         activePanel={activePanel}
         onClose={() => setActivePanel('none')}
       >
@@ -258,7 +258,7 @@ export const App: React.FC = () => {
             onResetCamera={handleResetCamera}
           />
         )}
-      </DrawerPanel>
+      </ModalPanel>
     </div>
   );
 };
