@@ -183,7 +183,7 @@ export const ThreeCanvas: React.FC<ThreeCanvasProps> = ({
         {/* ロード中スピナー / 起動準備中オーバーレイ */}
         {(isLoading || !currentVrm || !isTrackingInitialized) && (
           <div className="absolute inset-0 bg-charcoal-bg/95 flex flex-col items-center justify-center backdrop-blur-md z-10">
-            <div className="w-9 h-9 border-3 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin mb-3.5"></div>
+            <div className="w-9 h-9 border-3 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin mb-4"></div>
             <p className="text-charcoal-text text-sm font-medium tracking-wide mb-1">
               {!currentVrm || isLoading
                 ? 'アバターモデルを読み込み中...'
@@ -199,13 +199,13 @@ export const ThreeCanvas: React.FC<ThreeCanvasProps> = ({
 
         {/* ロードエラー */}
         {loadError && (
-          <div className="absolute bottom-4 left-4 right-4 bg-red-950/80 border border-red-500/50 p-3 rounded-lg text-red-200 text-xs backdrop-blur-md z-10">
+          <div className="absolute bottom-4 left-4 right-4 bg-red-950/80 border border-red-500/50 p-4 rounded-lg text-red-200 text-xs backdrop-blur-md z-10">
             {loadError}
           </div>
         )}
 
         {/* ステータスバッジ (画面左下) */}
-        <div className="absolute bottom-3 left-3 flex items-center gap-2 bg-charcoal-surface/85 border border-charcoal-border px-2.5 py-1 rounded-full text-[11px] text-charcoal-text backdrop-blur-md pointer-events-none select-none z-10 shadow-sm">
+        <div className="absolute bottom-2 left-2 flex items-center gap-2 bg-charcoal-surface/85 border border-charcoal-border px-2 py-1 rounded-full text-xs text-charcoal-text backdrop-blur-md pointer-events-none select-none z-10 shadow-sm">
           <span
             className={`w-2 h-2 rounded-full ${
               currentVrm && trackingStatus.faceDetected ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'
@@ -230,15 +230,6 @@ export const ThreeCanvas: React.FC<ThreeCanvasProps> = ({
           )}
           <span className="text-charcoal-text-muted opacity-40">|</span>
           <span className="text-charcoal-text-muted">{trackingStatus.fps} FPS</span>
-        </div>
-
-        {/* マウス操作ヒントバッジ (画面右上) */}
-        <div className="absolute top-3 right-16 hidden sm:flex items-center gap-2 bg-charcoal-surface/85 border border-charcoal-border px-3 py-1 rounded-full text-[10px] text-charcoal-text backdrop-blur-md pointer-events-none select-none z-10 opacity-70 hover:opacity-100 transition-opacity shadow-sm">
-          <span>🖱️ 左ドラッグ: 向き</span>
-          <span className="text-charcoal-text-muted opacity-40">•</span>
-          <span>右ドラッグ: 位置</span>
-          <span className="text-charcoal-text-muted opacity-40">•</span>
-          <span>ホイール: 距離</span>
         </div>
       </div>
     </div>

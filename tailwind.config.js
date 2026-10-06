@@ -20,6 +20,21 @@ export default {
           brand: 'var(--charcoal-color-brand-default, #6366f1)',
         },
       },
+      // Charcoal Typography Tokens:
+      // text-xs: 12px / 20px (Charcoal typography-12)
+      // text-sm: 14px / 22px (Charcoal typography-14)
+      // text-base: 16px / 24px (Charcoal typography-16)
+      // text-lg: 20px / 28px (Charcoal typography-20)
+      // text-xl: 20px / 28px (Charcoal typography-20)
+      // text-2xl: 32px / 40px (Charcoal typography-32)
+      fontSize: {
+        xs: ['12px', { lineHeight: '20px' }],
+        sm: ['14px', { lineHeight: '22px' }],
+        base: ['16px', { lineHeight: '24px' }],
+        lg: ['20px', { lineHeight: '28px' }],
+        xl: ['20px', { lineHeight: '28px' }],
+        '2xl': ['32px', { lineHeight: '40px' }],
+      },
     },
   },
   plugins: [],

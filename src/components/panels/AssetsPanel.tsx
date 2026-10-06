@@ -72,7 +72,7 @@ export const AssetsPanel: React.FC<AssetsPanelProps> = ({
       {/* 1. VRMアバターの変更 */}
       <div>
         <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-2">
-          <Icon name="24/Body" className="text-indigo-500" />
+          <Icon name="24/Body" className="text-charcoal-text-muted" />
           VRM アバター切り替え
         </label>
 
@@ -93,10 +93,10 @@ export const AssetsPanel: React.FC<AssetsPanelProps> = ({
           <div className="flex justify-center mb-2">
             <Icon name="24/AddImage" className="text-charcoal-text-muted group-hover:text-indigo-500 transition-colors" />
           </div>
-          <p className="text-xs font-medium text-charcoal-text">
+          <p className="text-sm font-medium text-charcoal-text">
             {settings.customVrmUrl ? 'カスタムVRM適用中' : 'デフォルトVRM表示中'}
           </p>
-          <p className="text-[11px] text-charcoal-text-muted mt-0.5">
+          <p className="text-xs text-charcoal-text-muted mt-1">
             クリックまたは .vrm をドラッグ＆ドロップ
           </p>
         </div>
@@ -119,11 +119,11 @@ export const AssetsPanel: React.FC<AssetsPanelProps> = ({
       {/* 2. 背景の変更 */}
       <div>
         <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-2">
-          <Icon name="24/Palette" className="text-pink-500" />
+          <Icon name="24/Palette" className="text-charcoal-text-muted" />
           背景設定 (シーン内合成)
         </label>
 
-        <div className="space-y-3 bg-charcoal-container-secondary border border-charcoal-border p-3.5 rounded-lg shadow-sm">
+        <div className="space-y-4 bg-charcoal-container-secondary border border-charcoal-border p-4 rounded-lg shadow-sm">
           {/* 単色カラープリセット */}
           <div>
             <p className="text-xs text-charcoal-text mb-2">単色・クロマキー背景</p>
@@ -198,16 +198,16 @@ export const AssetsPanel: React.FC<AssetsPanelProps> = ({
       {/* 3. アバター位置・カメラ操作 (マウス直感操作) */}
       <div>
         <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-2">
-          <Icon name="24/Move1" className="text-amber-500" />
+          <Icon name="24/Move1" className="text-charcoal-text-muted" />
           アバター位置・カメラ操作
         </label>
 
-        <div className="bg-charcoal-container-secondary border border-charcoal-border p-3.5 rounded-lg space-y-3 shadow-sm">
-          <p className="text-xs text-charcoal-text">
+        <div className="bg-charcoal-container-secondary border border-charcoal-border p-4 rounded-lg space-y-4 shadow-sm">
+          <p className="text-sm text-charcoal-text">
             プレビュー画面上でマウスを直接操作して、位置・向き・距離を自在に調整できます。
           </p>
 
-          <div className="space-y-1.5 text-[11px] text-charcoal-text-muted bg-charcoal-container-tertiary rounded p-2.5 border border-charcoal-border">
+          <div className="space-y-2 text-xs text-charcoal-text-muted bg-charcoal-container-tertiary rounded p-2 border border-charcoal-border">
             <div className="flex items-center justify-between">
               <span>🖱️ <strong className="text-charcoal-text">左ドラッグ</strong>:</span>
               <span className="text-indigo-600 dark:text-indigo-400">アバターの向き (360°回転)</span>

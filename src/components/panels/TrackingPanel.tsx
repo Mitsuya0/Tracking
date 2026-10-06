@@ -30,12 +30,12 @@ export const TrackingPanel: React.FC<TrackingPanelProps> = ({
     <div className="space-y-6 text-sm text-charcoal-text">
       {/* 1. 顔トラッキング設定 */}
       <div>
-        <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-3">
-          <Icon name="24/FaceEdit" className="text-purple-500" />
+        <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-2">
+          <Icon name="24/FaceEdit" className="text-charcoal-text-muted" />
           顔・表情トラッキング
         </label>
 
-        <div className="space-y-4 bg-charcoal-container-secondary border border-charcoal-border p-3.5 rounded-lg shadow-sm">
+        <div className="space-y-4 bg-charcoal-container-secondary border border-charcoal-border p-4 rounded-lg shadow-sm">
           {/* 顔追従感度 */}
           <div>
             <div className="flex justify-between text-xs mb-1">
@@ -119,7 +119,7 @@ export const TrackingPanel: React.FC<TrackingPanelProps> = ({
               onChange={(e) => updateTracking('targetFps', parseInt(e.target.value, 10))}
               className="w-full h-1.5 bg-charcoal-container-tertiary rounded-lg appearance-none cursor-pointer accent-purple-500"
             />
-            <p className="text-[10px] text-charcoal-text-muted mt-1">
+            <p className="text-xs text-charcoal-text-muted mt-1">
               数値を下げるとMediaPipeのAI推論負荷が下がり、Meet等の動作が軽くなります
             </p>
           </div>
@@ -128,17 +128,17 @@ export const TrackingPanel: React.FC<TrackingPanelProps> = ({
 
       {/* 2. ハンドトラッキング設定 */}
       <div>
-        <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-3">
-          <Icon name="24/Body" className="text-emerald-500" />
+        <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-2">
+          <Icon name="24/Body" className="text-charcoal-text-muted" />
           ハンドトラッキング (両手・指)
         </label>
 
-        <div className="space-y-4 bg-charcoal-container-secondary border border-charcoal-border p-3.5 rounded-lg shadow-sm">
+        <div className="space-y-4 bg-charcoal-container-secondary border border-charcoal-border p-4 rounded-lg shadow-sm">
           {/* 有効・無効トグル (負荷軽減用) */}
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xs font-medium text-charcoal-text">手の追従を有効化</p>
-              <p className="text-[11px] text-charcoal-text-muted">オフにするとCPU/GPU負荷を軽減</p>
+              <p className="text-sm font-medium text-charcoal-text">手の追従を有効化</p>
+              <p className="text-xs text-charcoal-text-muted">オフにするとCPU/GPU負荷を軽減</p>
             </div>
             <Switch
               checked={tracking.handsEnabled}

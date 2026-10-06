@@ -83,10 +83,10 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
       {/* 0. 外観カラーテーマ (Charcoal Light / Dark) */}
       <div>
         <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-2">
-          <Icon name="24/Palette" className="text-indigo-500" />
+          <Icon name="24/Palette" className="text-charcoal-text-muted" />
           カラーテーマ (Charcoal)
         </label>
-        <div className="bg-charcoal-container-secondary border border-charcoal-border rounded-lg p-3 shadow-sm">
+        <div className="bg-charcoal-container-secondary border border-charcoal-border rounded-lg p-4 shadow-sm">
           <RadioGroup
             name="theme"
             label="カラーテーマ"
@@ -95,10 +95,10 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
             className="flex items-center gap-6"
           >
             <Radio value="light">
-              <span className="text-xs font-medium">ライトテーマ</span>
+              <span className="text-sm font-medium">ライトテーマ</span>
             </Radio>
             <Radio value="dark">
-              <span className="text-xs font-medium">ダークテーマ</span>
+              <span className="text-sm font-medium">ダークテーマ</span>
             </Radio>
           </RadioGroup>
         </div>
@@ -107,38 +107,38 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
       {/* 1. パフォーマンス動作モード (Meet同時利用向け省電力) */}
       <div>
         <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-2">
-          <Icon name="24/Settings" className="text-emerald-500" />
+          <Icon name="24/Settings" className="text-charcoal-text-muted" />
           動作パフォーマンス
         </label>
         <div className="grid grid-cols-2 gap-2">
           <button
             onClick={() => handlePerformanceModeChange('economy')}
-            className={`p-2.5 rounded-lg border text-left transition-all ${
+            className={`p-2 rounded-lg border text-left transition-all ${
               settings.performanceMode === 'economy'
                 ? 'bg-emerald-500/10 border-emerald-500 text-charcoal-text shadow-sm'
                 : 'bg-charcoal-container-secondary border-charcoal-border text-charcoal-text-muted hover:border-charcoal-border'
             }`}
           >
-            <div className="text-xs font-semibold flex items-center gap-1.5 text-emerald-600 dark:text-emerald-300">
+            <div className="text-xs font-semibold flex items-center gap-1 text-emerald-600 dark:text-emerald-300">
               🌿 エコモード
             </div>
-            <div className="text-[10px] text-charcoal-text-muted mt-1">
+            <div className="text-xs text-charcoal-text-muted mt-1">
               Google Meet推奨。手追従OFF・24FPSでCPU/GPU負荷を最小化
             </div>
           </button>
 
           <button
             onClick={() => handlePerformanceModeChange('balanced')}
-            className={`p-2.5 rounded-lg border text-left transition-all ${
+            className={`p-2 rounded-lg border text-left transition-all ${
               settings.performanceMode === 'balanced'
                 ? 'bg-indigo-500/10 border-indigo-500 text-charcoal-text shadow-sm'
                 : 'bg-charcoal-container-secondary border-charcoal-border text-charcoal-text-muted hover:border-charcoal-border'
             }`}
           >
-            <div className="text-xs font-semibold flex items-center gap-1.5 text-indigo-600 dark:text-indigo-300">
+            <div className="text-xs font-semibold flex items-center gap-1 text-indigo-600 dark:text-indigo-300">
               ⚖️ 標準モード
             </div>
-            <div className="text-[10px] text-charcoal-text-muted mt-1">
+            <div className="text-xs text-charcoal-text-muted mt-1">
               標準設定。手追従ON・30FPSのフル機能追従
             </div>
           </button>
@@ -148,7 +148,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
       {/* 2. Webカメラ選択 */}
       <div>
         <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-2">
-          <Icon name="24/Camera" className="text-indigo-500" />
+          <Icon name="24/Camera" className="text-charcoal-text-muted" />
           Webカメラ入力
         </label>
         <DropdownSelector
@@ -183,7 +183,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
           setPreviewCallback={setPreviewCallback}
           isOpen={true}
         />
-        <div className="mt-2 flex items-center justify-between text-[11px] text-charcoal-text-muted">
+        <div className="mt-2 flex items-center justify-between text-xs text-charcoal-text-muted">
           <span>顔追従: {trackingStatus.faceDetected ? '✅ 認識中' : '❌ 未検出'}</span>
           <span>手認識: {trackingStatus.leftHandDetected || trackingStatus.rightHandDetected ? '✅ 認識中' : '未検出'}</span>
         </div>
@@ -191,21 +191,21 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
 
       {/* 4. 仮想カメラ出力 (FR-6要件) */}
       <div className="pt-2 border-t border-charcoal-border">
-        <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-3">
+        <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-2">
           <Icon
             name="24/CameraVideo"
-            className={isVirtualCamRunning ? 'text-emerald-500' : 'text-charcoal-text-muted'}
+            className="text-charcoal-text-muted"
           />
           仮想カメラ出力 (Web会議向け)
         </label>
 
-        <div className="bg-charcoal-container-secondary border border-charcoal-border rounded-lg p-3 space-y-3 shadow-sm">
+        <div className="bg-charcoal-container-secondary border border-charcoal-border rounded-lg p-4 space-y-2 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xs font-medium text-charcoal-text">
+              <p className="text-sm font-medium text-charcoal-text">
                 {isVirtualCamRunning ? virtualCamDeviceName : '仮想カメラデバイス'}
               </p>
-              <p className="text-[11px] text-charcoal-text-muted">
+              <p className="text-xs text-charcoal-text-muted">
                 {isVirtualCamRunning
                   ? 'Google Meet等のカメラ設定で選択してください'
                   : 'Web会議アプリへアバター映像を出力'}
@@ -220,9 +220,9 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
             </Button>
           </div>
 
-          <div className="text-[10px] text-charcoal-text-muted border-t border-charcoal-border pt-2 flex items-center justify-between">
+          <div className="text-xs text-charcoal-text-muted border-t border-charcoal-border pt-2 flex items-center justify-between">
             <span>解像度: 1280×720 (16:9)</span>
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1">
               <span>送出FPS:</span>
               <div className="w-28">
                 <DropdownSelector

@@ -36,14 +36,14 @@ export const IconBar: React.FC<IconBarProps> = ({
   return (
     <div className="absolute top-0 right-0 h-full w-14 bg-charcoal-container-secondary border-l border-charcoal-border flex flex-col items-center justify-between py-4 z-30 select-none shadow-md">
       {/* 上部アイコン群 */}
-      <div className="flex flex-col items-center gap-3">
+      <div className="flex flex-col items-center gap-2">
         {items.map((item) => {
           const isActive = activePanel === item.id;
           return (
             <button
               key={item.id}
               onClick={() => onTogglePanel(isActive ? 'none' : item.id)}
-              className={`relative p-2.5 rounded-xl transition-all ${
+              className={`relative p-2 rounded-xl transition-all ${
                 isActive
                   ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30'
                   : 'text-charcoal-text-muted hover:text-charcoal-text hover:bg-charcoal-container-tertiary'
@@ -61,7 +61,7 @@ export const IconBar: React.FC<IconBarProps> = ({
         {/* 視点リセットボタン */}
         <button
           onClick={onResetCamera}
-          className="p-2.5 rounded-xl text-charcoal-text-muted hover:text-charcoal-text hover:bg-charcoal-container-tertiary transition-all mt-2"
+          className="p-2 rounded-xl text-charcoal-text-muted hover:text-charcoal-text hover:bg-charcoal-container-tertiary transition-all mt-2"
           title="アングルをリセット"
         >
           <Icon name="24/Rotate90DegreesCc" />
