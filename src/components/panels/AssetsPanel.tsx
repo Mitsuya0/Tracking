@@ -88,7 +88,7 @@ export const AssetsPanel: React.FC<AssetsPanelProps> = ({
           onDragOver={(e) => e.preventDefault()}
           onDrop={handleVrmDrop}
           onClick={() => vrmInputRef.current?.click()}
-          className="w-full border-2 border-dashed border-charcoal-border hover:border-indigo-500 bg-charcoal-container-secondary hover:bg-charcoal-container-tertiary rounded-lg p-4 text-center cursor-pointer transition-all group shadow-sm"
+          className="w-full border-2 border-dashed border-charcoal-border hover:border-indigo-500 bg-charcoal-container-secondary hover:bg-charcoal-container-tertiary rounded-lg p-4 text-center cursor-pointer transition-all group"
         >
           <div className="flex justify-center mb-2">
             <Icon name="24/AddImage" className="text-charcoal-text-muted group-hover:text-indigo-500 transition-colors" />
@@ -123,7 +123,7 @@ export const AssetsPanel: React.FC<AssetsPanelProps> = ({
           背景設定 (シーン内合成)
         </label>
 
-        <div className="space-y-4 bg-charcoal-container-secondary border border-charcoal-border p-4 rounded-lg shadow-sm">
+        <div className="space-y-4 bg-charcoal-container-secondary border border-charcoal-border p-4 rounded-lg">
           {/* 単色カラープリセット */}
           <div>
             <p className="text-xs text-charcoal-text mb-2">単色・クロマキー背景</p>
@@ -202,7 +202,7 @@ export const AssetsPanel: React.FC<AssetsPanelProps> = ({
           アバター位置・カメラ操作
         </label>
 
-        <div className="bg-charcoal-container-secondary border border-charcoal-border p-4 rounded-lg space-y-4 shadow-sm">
+        <div className="bg-charcoal-container-secondary border border-charcoal-border p-4 rounded-lg space-y-4">
           <p className="text-sm text-charcoal-text">
             プレビュー画面上でマウスを直接操作して、位置・向き・距離を自在に調整できます。
           </p>

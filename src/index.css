@@ -13,3 +13,10 @@ html, body, #root {
   color: var(--charcoal-color-text-default, #f1f5f9);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
+
+/* Charcoal 2.0 繊細な薄い枠線 (border-secondary) の適用保証 */
+.border-charcoal-border,
+.hover\:border-charcoal-border:hover {
+  border-color: var(--charcoal-color-border-secondary) !important;
+}
+

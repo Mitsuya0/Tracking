@@ -79,7 +79,7 @@ export const CameraPreview: React.FC<CameraPreviewProps> = ({
   }, [isOpen, setPreviewCallback]);
 
   return (
-    <div className="relative w-full aspect-video bg-slate-950 rounded-lg overflow-hidden border border-slate-700/60 shadow-inner">
+    <div className="relative w-full aspect-video bg-slate-950 rounded-lg overflow-hidden border border-charcoal-border shadow-inner">
       <canvas
         ref={canvasRef}
         width={320}

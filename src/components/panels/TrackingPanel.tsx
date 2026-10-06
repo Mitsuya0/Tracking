@@ -35,7 +35,7 @@ export const TrackingPanel: React.FC<TrackingPanelProps> = ({
           顔・表情トラッキング
         </label>
 
-        <div className="space-y-4 bg-charcoal-container-secondary border border-charcoal-border p-4 rounded-lg shadow-sm">
+        <div className="space-y-4 bg-charcoal-container-secondary border border-charcoal-border p-4 rounded-lg">
           {/* 顔追従感度 */}
           <div>
             <div className="flex justify-between text-xs mb-1">
@@ -133,7 +133,7 @@ export const TrackingPanel: React.FC<TrackingPanelProps> = ({
           ハンドトラッキング (両手・指)
         </label>
 
-        <div className="space-y-4 bg-charcoal-container-secondary border border-charcoal-border p-4 rounded-lg shadow-sm">
+        <div className="space-y-4 bg-charcoal-container-secondary border border-charcoal-border p-4 rounded-lg">
           {/* 有効・無効トグル (負荷軽減用) */}
           <div className="flex items-center justify-between">
             <div>

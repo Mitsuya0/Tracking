@@ -86,7 +86,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
           <Icon name="24/Palette" className="text-charcoal-text-muted" />
           カラーテーマ (Charcoal)
         </label>
-        <div className="bg-charcoal-container-secondary border border-charcoal-border rounded-lg p-4 shadow-sm">
+        <div className="bg-charcoal-container-secondary border border-charcoal-border rounded-lg p-4">
           <RadioGroup
             name="theme"
             label="カラーテーマ"
@@ -115,7 +115,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
             onClick={() => handlePerformanceModeChange('economy')}
             className={`p-2 rounded-lg border text-left transition-all ${
               settings.performanceMode === 'economy'
-                ? 'bg-emerald-500/10 border-emerald-500 text-charcoal-text shadow-sm'
+                ? 'bg-emerald-500/10 border-emerald-500 text-charcoal-text'
                 : 'bg-charcoal-container-secondary border-charcoal-border text-charcoal-text-muted hover:border-charcoal-border'
             }`}
           >
@@ -131,7 +131,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
             onClick={() => handlePerformanceModeChange('balanced')}
             className={`p-2 rounded-lg border text-left transition-all ${
               settings.performanceMode === 'balanced'
-                ? 'bg-indigo-500/10 border-indigo-500 text-charcoal-text shadow-sm'
+                ? 'bg-indigo-500/10 border-indigo-500 text-charcoal-text'
                 : 'bg-charcoal-container-secondary border-charcoal-border text-charcoal-text-muted hover:border-charcoal-border'
             }`}
           >
@@ -199,7 +199,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
           仮想カメラ出力 (Web会議向け)
         </label>
 
-        <div className="bg-charcoal-container-secondary border border-charcoal-border rounded-lg p-4 space-y-2 shadow-sm">
+        <div className="bg-charcoal-container-secondary border border-charcoal-border rounded-lg p-4 space-y-2">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-charcoal-text">
