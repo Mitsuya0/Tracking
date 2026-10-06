@@ -166,7 +166,7 @@ export const ThreeCanvas: React.FC<ThreeCanvasProps> = ({
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-full flex items-center justify-center bg-charcoal-bg overflow-hidden"
+      className="relative w-full h-full flex items-center justify-center bg-[#141414] overflow-hidden"
     >
       {/* 16:9 アスペクト比を維持するキャンバスラッパー */}
       <div
@@ -205,7 +205,7 @@ export const ThreeCanvas: React.FC<ThreeCanvasProps> = ({
         )}
 
         {/* ステータスバッジ (画面左下) */}
-        <div className="absolute bottom-2 left-2 flex items-center gap-2 bg-charcoal-surface/85 border border-charcoal-border px-2 py-1 rounded-full text-xs text-charcoal-text backdrop-blur-md pointer-events-none select-none z-10 shadow-sm">
+        <div className="absolute bottom-2 left-2 flex items-center gap-2 bg-charcoal-container border border-charcoal-border px-2.5 py-1 rounded-full text-xs text-charcoal-text pointer-events-none select-none z-10 shadow-sm">
           <span
             className={`w-2 h-2 rounded-full ${
               currentVrm && trackingStatus.faceDetected ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'

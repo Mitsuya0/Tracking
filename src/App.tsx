@@ -204,7 +204,7 @@ export const App: React.FC = () => {
       />
 
       {/* 2. 16:9 レターボックス アバターキャンバス */}
-      <div className="flex-1 w-full h-full relative">
+      <div className="flex-1 w-full h-full relative pr-14 bg-[#141414]">
         <ThreeCanvas
           settings={settings}
           latestTrackingDataRef={latestTrackingDataRef}
