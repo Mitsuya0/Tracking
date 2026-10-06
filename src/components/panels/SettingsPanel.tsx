@@ -83,7 +83,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
       {/* 0. 外観カラーテーマ (Charcoal Light / Dark) */}
       <div>
         <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-2">
-          <Icon name="24/Palette" className="text-charcoal-text-muted" />
+          <Icon name="24/Palette" fixedSize={16} className="text-charcoal-text-muted" />
           カラーテーマ (Charcoal)
         </label>
         <div className="bg-charcoal-container-secondary border border-charcoal-border rounded-lg p-4">
@@ -107,7 +107,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
       {/* 1. パフォーマンス動作モード (Meet同時利用向け省電力) */}
       <div>
         <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-2">
-          <Icon name="24/Settings" className="text-charcoal-text-muted" />
+          <Icon name="24/Settings" fixedSize={16} className="text-charcoal-text-muted" />
           動作パフォーマンス
         </label>
         <div className="grid grid-cols-2 gap-2">
@@ -148,7 +148,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
       {/* 2. Webカメラ選択 */}
       <div>
         <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-2">
-          <Icon name="24/Camera" className="text-charcoal-text-muted" />
+          <Icon name="24/Camera" fixedSize={16} className="text-charcoal-text-muted" />
           Webカメラ入力
         </label>
         <DropdownSelector
@@ -194,6 +194,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
         <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-2">
           <Icon
             name="24/CameraVideo"
+            fixedSize={16}
             className="text-charcoal-text-muted"
           />
           仮想カメラ出力 (Web会議向け)

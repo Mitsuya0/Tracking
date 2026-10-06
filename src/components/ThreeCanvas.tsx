@@ -28,12 +28,18 @@ export const ThreeCanvas: React.FC<ThreeCanvasProps> = ({
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const [sceneState, setSceneState] = useState<THREE.Scene | null>(null);
+  const sceneRef = useRef<THREE.Scene | null>(null);
 
-  // ライティング・レンダラー参照
+  // ライティング・レンダラー・カメラ参照
   const dirLightRef = useRef<THREE.DirectionalLight | null>(null);
   const backLightRef = useRef<THREE.DirectionalLight | null>(null);
   const ambLightRef = useRef<THREE.AmbientLight | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
+  const perspCameraRef = useRef<THREE.PerspectiveCamera | null>(null);
+  const orthoCameraRef = useRef<THREE.OrthographicCamera | null>(null);
+  const activeCameraRef = useRef<THREE.Camera | null>(null);
+  const controlsRef = useRef<OrbitControls | null>(null);
+  const prevFovRef = useRef<number>(settings.lighting?.cameraFov ?? 0);
 
   // useVRM フック
   const { currentVrm, isLoading, loadError, updateVRM } = useVRM({
@@ -53,8 +59,16 @@ export const ThreeCanvas: React.FC<ThreeCanvasProps> = ({
   onFrameRenderedRef.current = onFrameRendered;
 
   // デフォルトカメラ位置・注視点
-  const DEFAULT_CAM_POS = useRef(new THREE.Vector3(0, 1.35, 0.9));
   const DEFAULT_CAM_TARGET = useRef(new THREE.Vector3(0, 1.32, 0));
+
+  // FOV に応じたキャラの見かけサイズを維持する理想カメラ距離の算出 (透視投影用)
+  const getIdealCamDistance = (fov: number): number => {
+    const baseFovRad = (30 * Math.PI) / 360; // 15度
+    const effectiveFov = Math.max(1, Math.min(90, fov));
+    const newFovRad = (effectiveFov * Math.PI) / 360;
+    const baseDist = 0.9;
+    return baseDist * (Math.tan(baseFovRad) / Math.tan(newFovRad));
+  };
 
   // Three.js シーンの初期化
   useEffect(() => {
@@ -65,12 +79,45 @@ export const ThreeCanvas: React.FC<ThreeCanvasProps> = ({
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(settings.background.color);
 
-    // 2. Camera (画角 30度で歪みの少ないポートレート向き設定)
-    const camera = new THREE.PerspectiveCamera(30, 16 / 9, 0.1, 20.0);
-    camera.position.copy(DEFAULT_CAM_POS.current);
-    camera.lookAt(DEFAULT_CAM_TARGET.current);
+    // 2. Cameras (正射影カメラ: FOV=0 歪みなし用 / 透視投影カメラ: FOV>0 用)
+    const initFov = settingsRef.current.lighting?.cameraFov ?? 0;
+    prevFovRef.current = initFov;
+    const isOrtho = initFov === 0;
 
-    // 3. Renderer
+    // 正射影 (Orthographic) カメラ設定 (距離0.9m・FOV30度相当の胸上バストアップサイズ)
+    const orthoH = 2 * 0.9 * Math.tan((15 * Math.PI) / 180); // 約 0.482m
+    const orthoW = orthoH * (16 / 9); // 約 0.857m
+    const orthoCamera = new THREE.OrthographicCamera(
+      -orthoW / 2,
+      orthoW / 2,
+      orthoH / 2,
+      -orthoH / 2,
+      0.1,
+      20.0
+    );
+    orthoCamera.position.set(0, 1.35, 0.9);
+    orthoCamera.lookAt(DEFAULT_CAM_TARGET.current);
+    orthoCameraRef.current = orthoCamera;
+
+    // 透視投影 (Perspective) カメラ設定
+    const perspCamera = new THREE.PerspectiveCamera(
+      initFov > 0 ? initFov : 20,
+      16 / 9,
+      0.1,
+      20.0
+    );
+    const initDist = getIdealCamDistance(initFov > 0 ? initFov : 20);
+    const initDir = new THREE.Vector3(0, 0.03, 0.9).normalize();
+    perspCamera.position.copy(DEFAULT_CAM_TARGET.current).addScaledVector(initDir, initDist);
+    perspCamera.lookAt(DEFAULT_CAM_TARGET.current);
+    perspCameraRef.current = perspCamera;
+
+    const initialCamera = isOrtho ? orthoCamera : perspCamera;
+    activeCameraRef.current = initialCamera;
+
+    const initLighting = settingsRef.current.lighting;
+
+    // 3. Renderer (トーンマッピングは THREE.LinearToneMapping に固定)
     const renderer = new THREE.WebGLRenderer({
       canvas,
       antialias: true,
@@ -80,10 +127,10 @@ export const ThreeCanvas: React.FC<ThreeCanvasProps> = ({
     renderer.setSize(1280, 720, false);
     renderer.setPixelRatio(1);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMapping = THREE.LinearToneMapping;
 
     // 4. OrbitControls による自由なマウス操作 (位置・向き・距離の無段階調整)
-    const controls = new OrbitControls(camera, renderer.domElement);
+    const controls = new OrbitControls(initialCamera, renderer.domElement);
     controls.target.copy(DEFAULT_CAM_TARGET.current);
     controls.enableDamping = true; // 滑らかな慣性移動
     controls.dampingFactor = 0.08;
@@ -92,21 +139,41 @@ export const ThreeCanvas: React.FC<ThreeCanvasProps> = ({
     controls.maxDistance = 6.0; // 遠ざかりすぎ防止
     controls.maxPolarAngle = Math.PI - 0.05; // 地面下からのひっくり返り防止
     controls.minPolarAngle = 0.05;
+    controlsRef.current = controls;
 
     // リセット用ハンドラーの伝播
     if (onResetCameraReady) {
       onResetCameraReady(() => {
-        camera.position.copy(DEFAULT_CAM_POS.current);
-        controls.target.copy(DEFAULT_CAM_TARGET.current);
-        controls.update();
+        const curFov = settingsRef.current.lighting?.cameraFov ?? 0;
+        const curIsOrtho = curFov === 0;
+        if (curIsOrtho && orthoCameraRef.current) {
+          const ortho = orthoCameraRef.current;
+          ortho.position.set(0, 1.35, 0.9);
+          ortho.zoom = 1;
+          ortho.updateProjectionMatrix();
+          controls.object = ortho;
+          controls.target.copy(DEFAULT_CAM_TARGET.current);
+          controls.update();
+          activeCameraRef.current = ortho;
+        } else if (perspCameraRef.current) {
+          const persp = perspCameraRef.current;
+          const dist = getIdealCamDistance(curFov > 0 ? curFov : 20);
+          const dir = new THREE.Vector3(0, 0.03, 0.9).normalize();
+          persp.fov = curFov > 0 ? curFov : 20;
+          persp.updateProjectionMatrix();
+          persp.position.copy(DEFAULT_CAM_TARGET.current).addScaledVector(dir, dist);
+          controls.object = persp;
+          controls.target.copy(DEFAULT_CAM_TARGET.current);
+          controls.update();
+          activeCameraRef.current = persp;
+        }
       });
     }
 
     // 5. Lighting
-    const initLighting = settingsRef.current.lighting;
     const dirLight = new THREE.DirectionalLight(
       initLighting?.mainLightColor || 0xffffff,
-      initLighting?.mainLightIntensity ?? 1.4
+      initLighting?.mainLightIntensity ?? 1.0
     );
     if (initLighting) {
       const radX = (initLighting.mainLightAngleX * Math.PI) / 180;
@@ -124,14 +191,14 @@ export const ThreeCanvas: React.FC<ThreeCanvasProps> = ({
 
     const backLight = new THREE.DirectionalLight(
       0xffffff,
-      initLighting?.backLightIntensity ?? 0.6
+      initLighting?.backLightIntensity ?? 1.0
     );
     backLight.position.set(-1.0, 1.5, -1.0).normalize();
     scene.add(backLight);
 
     const ambLight = new THREE.AmbientLight(
       initLighting?.ambientColor || 0xffffff,
-      initLighting?.ambientIntensity ?? 0.9
+      initLighting?.ambientIntensity ?? 1.0
     );
     scene.add(ambLight);
 
@@ -144,6 +211,7 @@ export const ThreeCanvas: React.FC<ThreeCanvasProps> = ({
     backLightRef.current = backLight;
     ambLightRef.current = ambLight;
 
+    sceneRef.current = scene;
     setSceneState(scene);
 
     if (onCanvasReady) {
@@ -179,7 +247,9 @@ export const ThreeCanvas: React.FC<ThreeCanvasProps> = ({
         );
       }
 
-      renderer.render(scene, camera);
+      if (activeCameraRef.current) {
+        renderer.render(scene, activeCameraRef.current);
+      }
 
       // レンダリング直後の最新フレームを仮想カメラ送出ハンドラへ同期伝達
       if (onFrameRenderedRef.current) {
@@ -197,16 +267,80 @@ export const ThreeCanvas: React.FC<ThreeCanvasProps> = ({
       controls.dispose();
       renderer.dispose();
       rendererRef.current = null;
+      perspCameraRef.current = null;
+      orthoCameraRef.current = null;
+      activeCameraRef.current = null;
+      controlsRef.current = null;
       dirLightRef.current = null;
       backLightRef.current = null;
       ambLightRef.current = null;
+      sceneRef.current = null;
     };
   }, []);
 
-  // ライティング設定のリアルタイム動的更新
+  // ライティング設定およびカメラFOVのリアルタイム動的更新
   useEffect(() => {
     const l = settings.lighting;
     if (!l) return;
+
+    // カメラ画角 (FOV) の動的更新: 0 = 平行投影 (Orthographic), >0 = 透視投影 (Perspective)
+    const targetFov = l.cameraFov ?? 0;
+    const isOrtho = targetFov === 0;
+
+    if (isOrtho) {
+      if (activeCameraRef.current !== orthoCameraRef.current && orthoCameraRef.current) {
+        const ortho = orthoCameraRef.current;
+        const currentCam = activeCameraRef.current;
+        if (currentCam) {
+          ortho.position.copy(currentCam.position);
+          ortho.quaternion.copy(currentCam.quaternion);
+        }
+        ortho.zoom = 1;
+        ortho.updateProjectionMatrix();
+        activeCameraRef.current = ortho;
+        if (controlsRef.current) {
+          controlsRef.current.object = ortho;
+          controlsRef.current.update();
+        }
+      }
+    } else {
+      const persp = perspCameraRef.current;
+      if (persp) {
+        const prevFov = prevFovRef.current > 0 ? prevFovRef.current : 20;
+        persp.fov = targetFov;
+        persp.updateProjectionMatrix();
+
+        if (activeCameraRef.current !== persp) {
+          const currentCam = activeCameraRef.current;
+          if (currentCam) {
+            persp.position.copy(currentCam.position);
+            persp.quaternion.copy(currentCam.quaternion);
+          }
+          activeCameraRef.current = persp;
+          if (controlsRef.current) {
+            controlsRef.current.object = persp;
+          }
+        } else {
+          // Perspective 間でのドリー補正 (見かけサイズ維持)
+          if (controlsRef.current && prevFov > 0) {
+            const target = controlsRef.current.target;
+            const offset = persp.position.clone().sub(target);
+            const curDist = offset.length();
+            if (curDist > 0.001) {
+              const scale =
+                Math.tan((prevFov * Math.PI) / 360) /
+                Math.tan((targetFov * Math.PI) / 360);
+              offset.multiplyScalar(scale);
+              persp.position.copy(target).add(offset);
+            }
+          }
+        }
+        if (controlsRef.current) {
+          controlsRef.current.update();
+        }
+      }
+    }
+    prevFovRef.current = targetFov;
 
     if (dirLightRef.current) {
       dirLightRef.current.intensity = l.mainLightIntensity;

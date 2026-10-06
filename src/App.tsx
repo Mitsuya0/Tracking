@@ -42,14 +42,15 @@ const defaultSettings: AppSettings = {
   },
   customVrmUrl: null,
   lighting: {
-    mainLightIntensity: 1.4,
+    mainLightIntensity: 1.0,
     mainLightColor: '#ffffff',
-    mainLightAngleX: 30,
-    mainLightAngleY: 45,
-    ambientIntensity: 0.9,
+    mainLightAngleX: 0,
+    mainLightAngleY: 0,
+    ambientIntensity: 1.0,
     ambientColor: '#ffffff',
-    backLightIntensity: 0.6,
+    backLightIntensity: 1.0,
     exposure: 1.0,
+    cameraFov: 0,
   },
 };
 

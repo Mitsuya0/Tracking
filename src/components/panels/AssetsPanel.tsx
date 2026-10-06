@@ -72,7 +72,7 @@ export const AssetsPanel: React.FC<AssetsPanelProps> = ({
       {/* 1. VRMアバターの変更 */}
       <div>
         <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-2">
-          <Icon name="24/Body" className="text-charcoal-text-muted" />
+          <Icon name="24/Body" fixedSize={16} className="text-charcoal-text-muted" />
           VRM アバター切り替え
         </label>
 
@@ -119,7 +119,7 @@ export const AssetsPanel: React.FC<AssetsPanelProps> = ({
       {/* 2. 背景の変更 */}
       <div>
         <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-2">
-          <Icon name="24/Palette" className="text-charcoal-text-muted" />
+          <Icon name="24/Palette" fixedSize={16} className="text-charcoal-text-muted" />
           背景設定 (シーン内合成)
         </label>
 
@@ -198,7 +198,7 @@ export const AssetsPanel: React.FC<AssetsPanelProps> = ({
       {/* 3. アバター位置・カメラ操作 (マウス直感操作) */}
       <div>
         <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-2">
-          <Icon name="24/Move1" className="text-charcoal-text-muted" />
+          <Icon name="24/Move1" fixedSize={16} className="text-charcoal-text-muted" />
           アバター位置・カメラ操作
         </label>
 

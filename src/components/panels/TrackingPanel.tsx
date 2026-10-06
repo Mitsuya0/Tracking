@@ -31,7 +31,7 @@ export const TrackingPanel: React.FC<TrackingPanelProps> = ({
       {/* 1. 顔トラッキング設定 */}
       <div>
         <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-2">
-          <Icon name="24/FaceEdit" className="text-charcoal-text-muted" />
+          <Icon name="24/FaceEdit" fixedSize={16} className="text-charcoal-text-muted" />
           顔・表情トラッキング
         </label>
 
@@ -129,7 +129,7 @@ export const TrackingPanel: React.FC<TrackingPanelProps> = ({
       {/* 2. ハンドトラッキング設定 */}
       <div>
         <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-2">
-          <Icon name="24/Body" className="text-charcoal-text-muted" />
+          <Icon name="24/Body" fixedSize={16} className="text-charcoal-text-muted" />
           ハンドトラッキング (両手・指)
         </label>
 

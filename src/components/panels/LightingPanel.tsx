@@ -2,6 +2,18 @@ import React from 'react';
 import { Button, Icon } from '@charcoal-ui/react';
 import type { AppSettings, LightingSettings } from '../../types';
 
+const DEFAULT_LIGHTING: LightingSettings = {
+  mainLightIntensity: 1.0,
+  mainLightColor: '#ffffff',
+  mainLightAngleX: 0,
+  mainLightAngleY: 0,
+  ambientIntensity: 1.0,
+  ambientColor: '#ffffff',
+  backLightIntensity: 1.0,
+  exposure: 1.0,
+  cameraFov: 0,
+};
+
 interface LightingPanelProps {
   settings: AppSettings;
   updateSettings: (updater: (prev: AppSettings) => AppSettings) => void;
@@ -26,66 +38,6 @@ export const LightingPanel: React.FC<LightingPanelProps> = ({
     }));
   };
 
-  // ライティングプリセット
-  const presets: { label: string; desc: string; config: LightingSettings }[] = [
-    {
-      label: 'スタジオ標準',
-      desc: '自然でバランスの取れた標準ライティング',
-      config: {
-        mainLightIntensity: 1.4,
-        mainLightColor: '#ffffff',
-        mainLightAngleX: 30,
-        mainLightAngleY: 45,
-        ambientIntensity: 0.9,
-        ambientColor: '#ffffff',
-        backLightIntensity: 0.6,
-        exposure: 1.0,
-      },
-    },
-    {
-      label: '美白・ブライト',
-      desc: '明るく透明感のある美肌・配信向けトーン',
-      config: {
-        mainLightIntensity: 1.8,
-        mainLightColor: '#ffffff',
-        mainLightAngleX: 15,
-        mainLightAngleY: 35,
-        ambientIntensity: 1.1,
-        ambientColor: '#ffffff',
-        backLightIntensity: 0.8,
-        exposure: 1.15,
-      },
-    },
-    {
-      label: 'ウォーム（夕暮れ）',
-      desc: '温かみのある柔らかいアンビエント光',
-      config: {
-        mainLightIntensity: 1.5,
-        mainLightColor: '#ffe5d0',
-        mainLightAngleX: 45,
-        mainLightAngleY: 30,
-        ambientIntensity: 0.85,
-        ambientColor: '#fff1e6',
-        backLightIntensity: 0.7,
-        exposure: 1.0,
-      },
-    },
-    {
-      label: 'クール・サイバー',
-      desc: 'エッジの立った近未来的な青白いトーン',
-      config: {
-        mainLightIntensity: 1.3,
-        mainLightColor: '#d6e4ff',
-        mainLightAngleX: -40,
-        mainLightAngleY: 50,
-        ambientIntensity: 0.7,
-        ambientColor: '#e0ecff',
-        backLightIntensity: 1.2,
-        exposure: 0.95,
-      },
-    },
-  ];
-
   // 光色カラーパレット
   const lightColorPresets = [
     { label: 'ナチュラル (純白)', color: '#ffffff' },
@@ -95,39 +47,19 @@ export const LightingPanel: React.FC<LightingPanelProps> = ({
     { label: 'サイバー (ネオン)', color: '#f3e8ff' },
   ];
 
-  const applyPreset = (presetConfig: LightingSettings) => {
+  const resetToDefault = () => {
     updateSettings((prev) => ({
       ...prev,
-      lighting: { ...presetConfig },
+      lighting: { ...DEFAULT_LIGHTING },
     }));
   };
 
   return (
     <div className="space-y-6 text-sm text-charcoal-text">
-      {/* 0. クイックプリセット */}
-      <div>
-        <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-2">
-          <Icon name="24/Sun" className="text-charcoal-text-muted" />
-          演出プリセット
-        </label>
-        <div className="grid grid-cols-2 gap-2">
-          {presets.map((p) => (
-            <button
-              key={p.label}
-              onClick={() => applyPreset(p.config)}
-              className="p-2 rounded-lg border border-charcoal-border bg-charcoal-container-secondary hover:bg-charcoal-container-tertiary transition-all text-left"
-            >
-              <div className="text-xs font-semibold text-charcoal-text">{p.label}</div>
-              <div className="text-xs text-charcoal-text-muted mt-0.5">{p.desc}</div>
-            </button>
-          ))}
-        </div>
-      </div>
-
       {/* 1. メインライト (主光源) */}
       <div>
         <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-2">
-          <Icon name="24/Sun" className="text-charcoal-text-muted" />
+          <Icon name="24/Sun" fixedSize={16} className="text-charcoal-text-muted" />
           メインライト (主光源)
         </label>
 
@@ -223,7 +155,7 @@ export const LightingPanel: React.FC<LightingPanelProps> = ({
       {/* 2. 環境光 & リムライト (立体感と陰影調整) */}
       <div>
         <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-2">
-          <Icon name="24/Palette" className="text-charcoal-text-muted" />
+          <Icon name="24/Palette" fixedSize={16} className="text-charcoal-text-muted" />
           環境光・陰影バランス
         </label>
 
@@ -231,7 +163,7 @@ export const LightingPanel: React.FC<LightingPanelProps> = ({
           {/* 環境光 (全体底上げ) */}
           <div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-charcoal-text">環境光 (全体の陰の明るさ)</span>
+              <span className="text-charcoal-text">環境光 (全体の明るさ)</span>
               <span className="text-indigo-500 dark:text-indigo-400 font-mono">
                 {lighting.ambientIntensity.toFixed(1)}x
               </span>
@@ -245,15 +177,12 @@ export const LightingPanel: React.FC<LightingPanelProps> = ({
               onChange={(e) => updateLighting('ambientIntensity', parseFloat(e.target.value))}
               className="w-full h-1.5 bg-charcoal-container-tertiary rounded-lg appearance-none cursor-pointer accent-indigo-500"
             />
-            <p className="text-xs text-charcoal-text-muted mt-1">
-              数値を上げると影が薄くなり、ふんわりと明るくなります
-            </p>
           </div>
 
           {/* バックライト / リムライト */}
           <div className="pt-2 border-t border-charcoal-border">
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-charcoal-text">リムライト (背後からの輪郭光)</span>
+              <span className="text-charcoal-text">リムライト (輪郭強調)</span>
               <span className="text-indigo-500 dark:text-indigo-400 font-mono">
                 {lighting.backLightIntensity.toFixed(1)}x
               </span>
@@ -267,52 +196,76 @@ export const LightingPanel: React.FC<LightingPanelProps> = ({
               onChange={(e) => updateLighting('backLightIntensity', parseFloat(e.target.value))}
               className="w-full h-1.5 bg-charcoal-container-tertiary rounded-lg appearance-none cursor-pointer accent-indigo-500"
             />
-            <p className="text-xs text-charcoal-text-muted mt-1">
-              モデルの頭部や肩の輪郭にハイライトを当てて立体感を強調します
-            </p>
           </div>
         </div>
       </div>
 
-      {/* 3. 画面全体の露出・トーン */}
+      {/* 3. 画面全体の露出 */}
       <div>
         <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-2">
-          <Icon name="24/Settings" className="text-charcoal-text-muted" />
-          画面全体の露出 (トーンマッピング)
+          <Icon name="24/Settings" fixedSize={16} className="text-charcoal-text-muted" />
+          露出度 (ToneMapping Exposure)
         </label>
 
-        <div className="space-y-4 bg-charcoal-container-secondary border border-charcoal-border p-4 rounded-lg">
-          <div>
-            <div className="flex justify-between text-xs mb-1">
-              <span className="text-charcoal-text">露出度 (Exposure)</span>
-              <span className="text-indigo-500 dark:text-indigo-400 font-mono">
-                {lighting.exposure.toFixed(2)}x
-              </span>
-            </div>
-            <input
-              type="range"
-              min="0.5"
-              max="2.0"
-              step="0.05"
-              value={lighting.exposure}
-              onChange={(e) => updateLighting('exposure', parseFloat(e.target.value))}
-              className="w-full h-1.5 bg-charcoal-container-tertiary rounded-lg appearance-none cursor-pointer accent-indigo-500"
-            />
+        <div className="bg-charcoal-container-secondary border border-charcoal-border p-4 rounded-lg">
+          <div className="flex justify-between text-xs mb-1">
+            <span className="text-charcoal-text">露出度</span>
+            <span className="text-indigo-500 dark:text-indigo-400 font-mono">
+              {lighting.exposure.toFixed(2)}x
+            </span>
           </div>
-
-          <div className="pt-2 border-t border-charcoal-border">
-            <Button
-              variant="Default"
-              size="S"
-              fullWidth
-              onClick={() => applyPreset(presets[0].config)}
-            >
-              ライティング設定を初期値にリセット
-            </Button>
-          </div>
+          <input
+            type="range"
+            min="0.5"
+            max="2.0"
+            step="0.05"
+            value={lighting.exposure}
+            onChange={(e) => updateLighting('exposure', parseFloat(e.target.value))}
+            className="w-full h-1.5 bg-charcoal-container-tertiary rounded-lg appearance-none cursor-pointer accent-indigo-500"
+          />
         </div>
+      </div>
+
+      {/* 4. カメラ視野角 (FOV) */}
+      <div>
+        <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-2">
+          <Icon name="24/Camera" fixedSize={16} className="text-charcoal-text-muted" />
+          カメラ視野角 (FOV)
+        </label>
+
+        <div className="bg-charcoal-container-secondary border border-charcoal-border p-4 rounded-lg">
+          <div className="flex justify-between text-xs mb-1">
+            <span className="text-charcoal-text">視野角 (Field of View)</span>
+            <span className="text-indigo-500 dark:text-indigo-400 font-mono">
+              {lighting.cameraFov === 0 ? '0° (平行投影・歪みなし)' : `${lighting.cameraFov}°`}
+            </span>
+          </div>
+          <input
+            type="range"
+            min="0"
+            max="60"
+            step="1"
+            value={lighting.cameraFov ?? 0}
+            onChange={(e) => updateLighting('cameraFov', parseInt(e.target.value, 10))}
+            className="w-full h-1.5 bg-charcoal-container-tertiary rounded-lg appearance-none cursor-pointer accent-indigo-500"
+          />
+          <p className="text-xs text-charcoal-text-muted mt-1 leading-relaxed">
+            0° に設定するとパースペクティブ歪みのない平行投影になり、数値を上げると遠近感のついた透視投影になります。
+          </p>
+        </div>
+      </div>
+
+      {/* 初期値リセット */}
+      <div className="pt-2">
+        <Button
+          variant="Default"
+          size="S"
+          fullWidth
+          onClick={resetToDefault}
+        >
+          ライティング設定を初期値にリセット
+        </Button>
       </div>
     </div>
   );
 };
-

@@ -14,8 +14,11 @@ export interface LightingSettings {
   // バックライト / リムライト（輪郭強調）
   backLightIntensity: number; // 0.0 - 2.0
 
-  // トーンマッピング露出（全体的な明るさ感）
+  // 露出度（全体の明るさバランス）
   exposure: number;           // 0.5 - 2.0
+
+  // カメラ視野角 (画角 / FOV: 0 = 平行投影・歪みなし, 1〜60 = 透視投影)
+  cameraFov: number;          // 0 - 60
 }
 
 export type BackgroundMode = 'color' | 'image';
