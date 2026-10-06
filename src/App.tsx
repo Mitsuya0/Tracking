@@ -6,6 +6,7 @@ import { ModalPanel } from './components/ModalPanel';
 import { SettingsPanel } from './components/panels/SettingsPanel';
 import { TrackingPanel } from './components/panels/TrackingPanel';
 import { AssetsPanel } from './components/panels/AssetsPanel';
+import { LightingPanel } from './components/panels/LightingPanel';
 import { useTracking } from './hooks/useTracking';
 import type { AppSettings, ActivePanel } from './types';
 
@@ -40,6 +41,16 @@ const defaultSettings: AppSettings = {
     fps: 30,
   },
   customVrmUrl: null,
+  lighting: {
+    mainLightIntensity: 1.4,
+    mainLightColor: '#ffffff',
+    mainLightAngleX: 30,
+    mainLightAngleY: 45,
+    ambientIntensity: 0.9,
+    ambientColor: '#ffffff',
+    backLightIntensity: 0.6,
+    exposure: 1.0,
+  },
 };
 
 export const App: React.FC = () => {
@@ -48,7 +59,15 @@ export const App: React.FC = () => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
-        return { ...defaultSettings, ...JSON.parse(saved) };
+        const parsed = JSON.parse(saved);
+        return {
+          ...defaultSettings,
+          ...parsed,
+          lighting: { ...defaultSettings.lighting, ...(parsed.lighting || {}) },
+          background: { ...defaultSettings.background, ...(parsed.background || {}) },
+          tracking: { ...defaultSettings.tracking, ...(parsed.tracking || {}) },
+          virtualCam: { ...defaultSettings.virtualCam, ...(parsed.virtualCam || {}) },
+        };
       }
     } catch (e) {
       console.error('Failed to load settings:', e);
@@ -247,6 +266,12 @@ export const App: React.FC = () => {
         )}
         {activePanel === 'tracking' && (
           <TrackingPanel
+            settings={settings}
+            updateSettings={setSettings}
+          />
+        )}
+        {activePanel === 'lighting' && (
+          <LightingPanel
             settings={settings}
             updateSettings={setSettings}
           />

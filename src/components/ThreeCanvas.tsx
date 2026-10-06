@@ -29,6 +29,12 @@ export const ThreeCanvas: React.FC<ThreeCanvasProps> = ({
 
   const [sceneState, setSceneState] = useState<THREE.Scene | null>(null);
 
+  // ライティング・レンダラー参照
+  const dirLightRef = useRef<THREE.DirectionalLight | null>(null);
+  const backLightRef = useRef<THREE.DirectionalLight | null>(null);
+  const ambLightRef = useRef<THREE.AmbientLight | null>(null);
+  const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
+
   // useVRM フック
   const { currentVrm, isLoading, loadError, updateVRM } = useVRM({
     scene: sceneState,
@@ -97,16 +103,46 @@ export const ThreeCanvas: React.FC<ThreeCanvasProps> = ({
     }
 
     // 5. Lighting
-    const dirLight = new THREE.DirectionalLight(0xffffff, 1.4);
-    dirLight.position.set(1.0, 1.5, 1.5).normalize();
+    const initLighting = settingsRef.current.lighting;
+    const dirLight = new THREE.DirectionalLight(
+      initLighting?.mainLightColor || 0xffffff,
+      initLighting?.mainLightIntensity ?? 1.4
+    );
+    if (initLighting) {
+      const radX = (initLighting.mainLightAngleX * Math.PI) / 180;
+      const radY = (initLighting.mainLightAngleY * Math.PI) / 180;
+      const dist = 2.5;
+      dirLight.position.set(
+        dist * Math.cos(radY) * Math.sin(radX),
+        dist * Math.sin(radY),
+        dist * Math.cos(radY) * Math.cos(radX)
+      );
+    } else {
+      dirLight.position.set(1.0, 1.5, 1.5).normalize();
+    }
     scene.add(dirLight);
 
-    const backLight = new THREE.DirectionalLight(0xffffff, 0.6);
+    const backLight = new THREE.DirectionalLight(
+      0xffffff,
+      initLighting?.backLightIntensity ?? 0.6
+    );
     backLight.position.set(-1.0, 1.5, -1.0).normalize();
     scene.add(backLight);
 
-    const ambLight = new THREE.AmbientLight(0xffffff, 0.9);
+    const ambLight = new THREE.AmbientLight(
+      initLighting?.ambientColor || 0xffffff,
+      initLighting?.ambientIntensity ?? 0.9
+    );
     scene.add(ambLight);
+
+    if (initLighting) {
+      renderer.toneMappingExposure = initLighting.exposure;
+    }
+
+    rendererRef.current = renderer;
+    dirLightRef.current = dirLight;
+    backLightRef.current = backLight;
+    ambLightRef.current = ambLight;
 
     setSceneState(scene);
 
@@ -160,8 +196,45 @@ export const ThreeCanvas: React.FC<ThreeCanvasProps> = ({
       cancelAnimationFrame(animationFrameId);
       controls.dispose();
       renderer.dispose();
+      rendererRef.current = null;
+      dirLightRef.current = null;
+      backLightRef.current = null;
+      ambLightRef.current = null;
     };
   }, []);
+
+  // ライティング設定のリアルタイム動的更新
+  useEffect(() => {
+    const l = settings.lighting;
+    if (!l) return;
+
+    if (dirLightRef.current) {
+      dirLightRef.current.intensity = l.mainLightIntensity;
+      dirLightRef.current.color.set(l.mainLightColor);
+
+      const radX = (l.mainLightAngleX * Math.PI) / 180;
+      const radY = (l.mainLightAngleY * Math.PI) / 180;
+      const dist = 2.5;
+      dirLightRef.current.position.set(
+        dist * Math.cos(radY) * Math.sin(radX),
+        dist * Math.sin(radY),
+        dist * Math.cos(radY) * Math.cos(radX)
+      );
+    }
+
+    if (backLightRef.current) {
+      backLightRef.current.intensity = l.backLightIntensity;
+    }
+
+    if (ambLightRef.current) {
+      ambLightRef.current.intensity = l.ambientIntensity;
+      ambLightRef.current.color.set(l.ambientColor);
+    }
+
+    if (rendererRef.current) {
+      rendererRef.current.toneMappingExposure = l.exposure;
+    }
+  }, [settings.lighting]);
 
   return (
     <div

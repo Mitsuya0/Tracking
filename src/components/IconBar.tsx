@@ -27,6 +27,11 @@ export const IconBar: React.FC<IconBarProps> = ({
       label: 'トラッキング調整',
     },
     {
+      id: 'lighting',
+      icon: <Icon name="24/Sun" />,
+      label: 'ライティング・演出設定',
+    },
+    {
       id: 'assets',
       icon: <Icon name="24/Palette" />,
       label: 'アセット・背景管理',

@@ -19,7 +19,8 @@ export const ModalPanel: React.FC<ModalPanelProps> = ({
     none: '',
     settings: '基本設定 & カメラ',
     tracking: 'トラッキング調整',
-    assets: 'アセット・外観管理',
+    lighting: 'ライティング・演出設定',
+    assets: 'アセット・背景管理',
   };
 
   return (

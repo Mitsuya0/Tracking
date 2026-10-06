@@ -1,4 +1,22 @@
-export type ActivePanel = 'none' | 'settings' | 'tracking' | 'assets';
+export type ActivePanel = 'none' | 'settings' | 'tracking' | 'assets' | 'lighting';
+
+export interface LightingSettings {
+  // メインライト（主光源）
+  mainLightIntensity: number; // 0.0 - 3.0
+  mainLightColor: string;     // hex color
+  mainLightAngleX: number;    // 水平角度 -180 - 180
+  mainLightAngleY: number;    // 垂直角度 0 - 90
+
+  // 環境光（全体的な底上げ）
+  ambientIntensity: number;   // 0.0 - 2.0
+  ambientColor: string;       // hex color
+
+  // バックライト / リムライト（輪郭強調）
+  backLightIntensity: number; // 0.0 - 2.0
+
+  // トーンマッピング露出（全体的な明るさ感）
+  exposure: number;           // 0.5 - 2.0
+}
 
 export type BackgroundMode = 'color' | 'image';
 
@@ -46,6 +64,7 @@ export interface AppSettings {
   tracking: TrackingSettings;
   virtualCam: VirtualCamSettings;
   customVrmUrl: string | null;
+  lighting: LightingSettings;
 }
 
 export interface TrackingStatus {
