@@ -33,7 +33,7 @@ export const ModalPanel: React.FC<ModalPanelProps> = ({
       zIndex={50}
     >
       <ModalHeader />
-      <ModalBody className="max-h-[calc(100vh-140px)] overflow-y-auto px-6 pb-6 custom-scrollbar">
+      <ModalBody className="flex-1 min-h-0 max-h-[calc(100vh-160px)] overflow-y-auto px-6 pb-6 custom-scrollbar">
         {children}
       </ModalBody>
     </Modal>

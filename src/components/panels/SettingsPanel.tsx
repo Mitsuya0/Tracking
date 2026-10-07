@@ -80,117 +80,8 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
 
   return (
     <div className="space-y-6 text-sm text-charcoal-text">
-      {/* 0. 外観カラーテーマ (Charcoal Light / Dark) */}
+      {/* 1. 仮想カメラ出力 (Web会議向け) */}
       <div>
-        <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-2">
-          <Icon name="24/Palette" fixedSize={16} className="text-charcoal-text-muted" />
-          カラーテーマ (Charcoal)
-        </label>
-        <div className="bg-charcoal-container-secondary border border-charcoal-border rounded-lg p-4">
-          <RadioGroup
-            name="theme"
-            label="カラーテーマ"
-            value={settings.theme}
-            onChange={(val) => handleThemeChange(val as 'light' | 'dark')}
-            className="flex items-center gap-6"
-          >
-            <Radio value="light">
-              <span className="text-sm font-medium">ライトテーマ</span>
-            </Radio>
-            <Radio value="dark">
-              <span className="text-sm font-medium">ダークテーマ</span>
-            </Radio>
-          </RadioGroup>
-        </div>
-      </div>
-
-      {/* 1. パフォーマンス動作モード (Meet同時利用向け省電力) */}
-      <div>
-        <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-2">
-          <Icon name="24/Settings" fixedSize={16} className="text-charcoal-text-muted" />
-          動作パフォーマンス
-        </label>
-        <div className="grid grid-cols-2 gap-2">
-          <button
-            onClick={() => handlePerformanceModeChange('economy')}
-            className={`p-2 rounded-lg border text-left transition-all ${
-              settings.performanceMode === 'economy'
-                ? 'bg-emerald-500/10 border-emerald-500 text-charcoal-text'
-                : 'bg-charcoal-container-secondary border-charcoal-border text-charcoal-text-muted hover:border-charcoal-border'
-            }`}
-          >
-            <div className="text-xs font-semibold flex items-center gap-1 text-emerald-600 dark:text-emerald-300">
-              🌿 エコモード
-            </div>
-            <div className="text-xs text-charcoal-text-muted mt-1">
-              Google Meet推奨。手追従OFF・24FPSでCPU/GPU負荷を最小化
-            </div>
-          </button>
-
-          <button
-            onClick={() => handlePerformanceModeChange('balanced')}
-            className={`p-2 rounded-lg border text-left transition-all ${
-              settings.performanceMode === 'balanced'
-                ? 'bg-indigo-500/10 border-indigo-500 text-charcoal-text'
-                : 'bg-charcoal-container-secondary border-charcoal-border text-charcoal-text-muted hover:border-charcoal-border'
-            }`}
-          >
-            <div className="text-xs font-semibold flex items-center gap-1 text-indigo-600 dark:text-indigo-300">
-              ⚖️ 標準モード
-            </div>
-            <div className="text-xs text-charcoal-text-muted mt-1">
-              標準設定。手追従ON・30FPSのフル機能追従
-            </div>
-          </button>
-        </div>
-      </div>
-
-      {/* 2. Webカメラ選択 */}
-      <div>
-        <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-2">
-          <Icon name="24/Camera" fixedSize={16} className="text-charcoal-text-muted" />
-          Webカメラ入力
-        </label>
-        <DropdownSelector
-          label="Webカメラ入力"
-          showLabel={false}
-          value={settings.selectedCameraId}
-          onChange={(value) =>
-            updateSettings((prev) => ({
-              ...prev,
-              selectedCameraId: value,
-            }))
-          }
-        >
-          {availableDevices.length > 0 ? (
-            availableDevices.map((device, idx) => (
-              <DropdownMenuItem key={device.deviceId || idx} value={device.deviceId}>
-                {device.label || `カメラ ${idx + 1}`}
-              </DropdownMenuItem>
-            ))
-          ) : (
-            <DropdownMenuItem value="">利用可能なカメラが見つかりません</DropdownMenuItem>
-          )}
-        </DropdownSelector>
-      </div>
-
-      {/* 3. 入力プレビュー (プライバシー保護仕様) */}
-      <div>
-        <label className="block text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-2">
-          カメラ認識確認
-        </label>
-        <CameraPreview
-          setPreviewCallback={setPreviewCallback}
-          isOpen={true}
-        />
-        <div className="mt-2 flex items-center justify-between text-xs text-charcoal-text-muted">
-          <span>顔追従: {trackingStatus.faceDetected ? '✅ 認識中' : '❌ 未検出'}</span>
-          <span>手認識: {trackingStatus.leftHandDetected || trackingStatus.rightHandDetected ? '✅ 認識中' : '未検出'}</span>
-        </div>
-      </div>
-
-      {/* 4. 仮想カメラ出力 (FR-6要件) */}
-      <div className="pt-2 border-t border-charcoal-border">
         <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-2">
           <Icon
             name="24/CameraVideo"
@@ -247,6 +138,116 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* 2. Webカメラ入力 & 認識確認 */}
+      <div className="space-y-4">
+        <div>
+          <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-2">
+            <Icon name="24/Camera" fixedSize={16} className="text-charcoal-text-muted" />
+            Webカメラ入力
+          </label>
+          <DropdownSelector
+            label="Webカメラ入力"
+            showLabel={false}
+            value={settings.selectedCameraId}
+            onChange={(value) =>
+              updateSettings((prev) => ({
+                ...prev,
+                selectedCameraId: value,
+              }))
+            }
+          >
+            {availableDevices.length > 0 ? (
+              availableDevices.map((device, idx) => (
+                <DropdownMenuItem key={device.deviceId || idx} value={device.deviceId}>
+                  {device.label || `カメラ ${idx + 1}`}
+                </DropdownMenuItem>
+              ))
+            ) : (
+              <DropdownMenuItem value="">利用可能なカメラが見つかりません</DropdownMenuItem>
+            )}
+          </DropdownSelector>
+        </div>
+
+        <div>
+          <label className="block text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-2">
+            カメラ認識確認
+          </label>
+          <CameraPreview
+            setPreviewCallback={setPreviewCallback}
+            isOpen={true}
+          />
+          <div className="mt-2 flex items-center justify-between text-xs text-charcoal-text-muted">
+            <span>顔追従: {trackingStatus.faceDetected ? '✅ 認識中' : '❌ 未検出'}</span>
+            <span>手認識: {trackingStatus.leftHandDetected || trackingStatus.rightHandDetected ? '✅ 認識中' : '未検出'}</span>
+          </div>
+        </div>
+      </div>
+
+      {/* 3. 動作パフォーマンス (Meet同時利用向け省電力) */}
+      <div>
+        <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-2">
+          <Icon name="24/Settings" fixedSize={16} className="text-charcoal-text-muted" />
+          動作パフォーマンス
+        </label>
+        <div className="grid grid-cols-2 gap-2">
+          <button
+            onClick={() => handlePerformanceModeChange('economy')}
+            className={`p-2 rounded-lg border text-left transition-all ${
+              settings.performanceMode === 'economy'
+                ? 'bg-emerald-500/10 border-emerald-500 text-charcoal-text'
+                : 'bg-charcoal-container-secondary border-charcoal-border text-charcoal-text-muted hover:border-charcoal-border'
+            }`}
+          >
+            <div className="text-xs font-semibold flex items-center gap-1 text-emerald-600 dark:text-emerald-300">
+              🌿 エコモード
+            </div>
+            <div className="text-xs text-charcoal-text-muted mt-1">
+              Google Meet推奨。手追従OFF・24FPSでCPU/GPU負荷を最小化
+            </div>
+          </button>
+
+          <button
+            onClick={() => handlePerformanceModeChange('balanced')}
+            className={`p-2 rounded-lg border text-left transition-all ${
+              settings.performanceMode === 'balanced'
+                ? 'bg-indigo-500/10 border-indigo-500 text-charcoal-text'
+                : 'bg-charcoal-container-secondary border-charcoal-border text-charcoal-text-muted hover:border-charcoal-border'
+            }`}
+          >
+            <div className="text-xs font-semibold flex items-center gap-1 text-indigo-600 dark:text-indigo-300">
+              ⚖️ 標準モード
+            </div>
+            <div className="text-xs text-charcoal-text-muted mt-1">
+              標準設定。手追従ON・30FPSのフル機能追従
+            </div>
+          </button>
+        </div>
+      </div>
+
+      {/* 4. 外観カラーテーマ (Charcoal Light / Dark) */}
+      <div>
+        <label className="flex items-center gap-2 text-xs font-semibold text-charcoal-text-muted uppercase tracking-wider mb-2">
+          <Icon name="24/Palette" fixedSize={16} className="text-charcoal-text-muted" />
+          カラーテーマ (Charcoal)
+        </label>
+        <div className="bg-charcoal-container-secondary border border-charcoal-border rounded-lg p-4">
+          <RadioGroup
+            name="theme"
+            label="カラーテーマ"
+            value={settings.theme}
+            onChange={(val) => handleThemeChange(val as 'light' | 'dark')}
+            className="flex items-center gap-6"
+          >
+            <Radio value="light">
+              <span className="text-sm font-medium">ライトテーマ</span>
+            </Radio>
+            <Radio value="dark">
+              <span className="text-sm font-medium">ダークテーマ</span>
+            </Radio>
+          </RadioGroup>
         </div>
       </div>
     </div>
